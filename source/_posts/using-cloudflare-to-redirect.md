@@ -7,6 +7,7 @@ date: 2018/12/22 03:14:16
 - 将 xiaoming.com/ 和 www.xiaoming.com/ 的请求 301 重定向到 example.com/about
 - 向下兼容以前在 xiaoming.com 下创建过的文章链接
 - 将 www.example.com 的请求全部重定向到 example.com
+<!--more-->
 
 # 配置
 ## 页面规则（Page Rules）

@@ -1,3 +1,3 @@
 [submodule "themes/saki.li"]
 	path = themes/saki.li
-	url = git@github.com:WordlessEcho/saki.li.git
+	url = https://github.com/WordlessEcho/saki.li

@@ -47,7 +47,7 @@ date: 2020-04-05 18:21:13
 - [烧饼（Siu Beng）](https://feng.moe/)：小有人气的Android开发者，我正在使用他开发的
 [悬浮字幕](https://play.google.com/store/apps/details?id=moe.feng.danmaqua)。
 
-- [Makito]：玛奇朵，小有人气的Android开发者。我没用过她开发的作品，但是发的照片很好看（小声）。
+- [Makito](https://mak1t0.cc/)：玛奇朵，小有人气的Android开发者。我没用过她开发的作品，但是发的照片很好看（小声）。
 
 - [萝卜](https://eatradish.github.io/)：这套博客主题正是她的作品。她说她写的东西全都是无用的垃圾，而且是故意的。
 但我觉得她有一些吸引人的地方。

@@ -7,16 +7,16 @@ date: 2020-05-31 00:11:01
 从这篇文章落稿后，我又回顾了「为Android CJK字体加上多字重」的事情。
 
 ## Maigsk模块
-首先是[@simonsmh](https://github.com/simonsmh)维护的NotoCJK这个Magisk模块。它的旧名为magisk-notosanscjk-nougat，一开始由于GitHub免费版单文件最大大小限制为100MB，
-所以并没有采用单文件的super OTC方案，而是一个字重分一个文件。后来Android P加入了Noto Serif CJK，[@simonsmh](https://github.com/simonsmh)又做了一个NotoCJK-P。
-不久后合并到一个模块，即[notocjk](https://github.com/simonsmh/notocjk)中处理。
+首先是[@simonsmh](https://github.com/simonsmh)维护的[notocjk](https://github.com/simonsmh/notocjk)这个Magisk模块。它的旧名为magisk-notosanscjk-nougat，
+一开始由于GitHub免费版单文件最大大小限制为100MB，所以并没有采用单文件的super OTC方案，而是一个字重分一个文件。后来Android P加入了Noto Serif CJK，
+[@simonsmh](https://github.com/simonsmh)又做了一个NotoCJK-P。不久后合并到一个模块，即NotoCJK中处理。
 
 后来Magisk框架的主要维护者，John Wu决定清理低质模块，[顺带一并清除了所有字体模块](https://twitter.com/topjohnwu/status/1229896206584664065)。我能理解他的做法，
 大多数字体模块只是简单的将字体重命名为Roboto-Regular.ttf，然后把系统默认字体替换掉。不过NotoCJK这个模块绝不是，因为涉及到要加字重，所以必须要修改fonts.xml。
 具体大家可以看我原来写的文章。
 
 ## Rikka的FontProvider
-Rikka在半年后推出了一个叫[FontProvider](https://github.com/RikkaApps/FontProvider)的应用。本质上是通过安装一个应用，下载全字重的字体文件，然后供各种应用调用。
+Rikka在文章发布半年后推出了一个叫[FontProvider](https://github.com/RikkaApps/FontProvider)的应用。本质上是通过安装一个应用，下载全字重的字体文件，然后供各种应用调用。
 本意是希望建立一个生态，替换掉Google稀烂的[downloadable fonts](https://developer.android.com/guide/topics/ui/look-and-feel/downloadable-fonts)，
 提供给不希望修改系统的用户。然而建立生态是十分困难的，Rikka作为一个独立开发者很难推动用户和开发者两边的人都使用这个应用，项目在一段时间后停止维护，在Android 10上字体预览也不太正常
 
@@ -57,7 +57,7 @@ Noto Serif则仅有可怜的regular和bold字重，多了足足5种。这也就�
 这是因为两者的繁体中文都是基于台湾标准的，所以和香港标准的多少有所不同。不过如果你在[Adobe的ultra OTC项目](https://github.com/adobe-fonts/source-han-super-otc)
 里下载的话，就会得到一份Noto CJK HK，这说明Noto也是可以打包出香港版本的。遗憾的是，Android的字体仍不能做到这么精确设定，期待Android后续的改进了。
 
-最后，仍要感谢[Toby Tso](https://twitter.com/tsopn)写了很多关于这方面的文章，除了查阅AOSP源代码，很多关键部分少不了他的支持。
+最后，仍要感谢[Toby Tso](https://twitter.com/tsopn)老师写了很多关于这方面的文章，除了查阅AOSP源代码，很多关键部分少不了他的支持。
 顺便宣传一下[我做的super otc的模块](https://github.com/WordlessEcho/Noto-Super-OTC-Installer)。感谢阅读！
 
 ## 参考资料

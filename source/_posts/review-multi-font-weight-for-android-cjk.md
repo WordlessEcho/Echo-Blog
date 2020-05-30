@@ -9,7 +9,7 @@ date: 2020-05-31 00:11:01
 ## Maigsk模块
 首先是[@simonsmh](https://github.com/simonsmh)维护的NotoCJK这个Magisk模块。它的旧名为magisk-notosanscjk-nougat，一开始由于GitHub免费版单文件最大大小限制为100MB，
 所以并没有采用单文件的super OTC方案，而是一个字重分一个文件。后来Android P加入了Noto Serif CJK，[@simonsmh](https://github.com/simonsmh)又做了一个NotoCJK-P。
-不久后合并到一个模块，即notocjk中处理。
+不久后合并到一个模块，即[notocjk](https://github.com/simonsmh/notocjk)中处理。
 
 后来Magisk框架的主要维护者，John Wu决定清理低质模块，[顺带一并清除了所有字体模块](https://twitter.com/topjohnwu/status/1229896206584664065)。我能理解他的做法，
 大多数字体模块只是简单的将字体重命名为Roboto-Regular.ttf，然后把系统默认字体替换掉。不过NotoCJK这个模块绝不是，因为涉及到要加字重，所以必须要修改fonts.xml。
@@ -17,8 +17,8 @@ date: 2020-05-31 00:11:01
 
 ## Rikka的FontProvider
 Rikka在半年后推出了一个叫[FontProvider](https://github.com/RikkaApps/FontProvider)的应用。本质上是通过安装一个应用，下载全字重的字体文件，然后供各种应用调用。
-本意是希望建立一个生态，替换掉Google稀烂的downloadable fonts，提供给不希望修改系统的用户。然而建立生态是十分困难的，
-Rikka作为一个独立开发者很难推动用户和开发者两边的人都使用这个应用，项目在一段时间后停止维护，在Android 10上字体预览也不太正常
+本意是希望建立一个生态，替换掉Google稀烂的[downloadable fonts](https://developer.android.com/guide/topics/ui/look-and-feel/downloadable-fonts)，
+提供给不希望修改系统的用户。然而建立生态是十分困难的，Rikka作为一个独立开发者很难推动用户和开发者两边的人都使用这个应用，项目在一段时间后停止维护，在Android 10上字体预览也不太正常
 
 
 ## Android中的使用
@@ -59,3 +59,9 @@ Noto Serif则仅有可怜的regular和bold字重，多了足足5种。这也就�
 
 最后，仍要感谢[Toby Tso](https://twitter.com/tsopn)写了很多关于这方面的文章，除了查阅AOSP源代码，很多关键部分少不了他的支持。
 顺便宣传一下[我做的super otc的模块](https://github.com/WordlessEcho/Noto-Super-OTC-Installer)。感谢阅读！
+
+## 参考资料
+1. [Source Han Sans 與 Noto Sans CJK 之字重對應](https://medium.com/ujam/the-relation-between-source-han-sans-and-noto-sans-cjk-11a6309f06da)
+2. [Noto Serif SC - Google Fonts](https://fonts.google.com/specimen/Noto+Serif+SC)
+3. [Source Han Sans Simplified Chinese | Adobe Fonts](https://fonts.adobe.com/fonts/source-han-sans-simplified-chinese#details-section)
+4. [Source Han Serif Simplified Chinese | Adobe Fonts](https://fonts.adobe.com/fonts/source-han-serif-simplified-chinese#details-section)

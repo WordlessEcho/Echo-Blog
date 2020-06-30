@@ -51,6 +51,9 @@ highlight:
   tab_replace: ''
   wrap: true
   hljs: false
+feed:
+  type: atom
+  path: atom.xml
 
 # Home page setting
 # path: Root path for your blogs index page. (default = '')

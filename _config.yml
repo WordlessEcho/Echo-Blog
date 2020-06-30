@@ -52,7 +52,7 @@ highlight:
   wrap: true
   hljs: false
 marked:
-  break: false
+  breaks: false
 
 # Home page setting
 # path: Root path for your blogs index page. (default = '')

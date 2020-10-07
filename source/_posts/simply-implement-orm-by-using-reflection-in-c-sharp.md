@@ -1,9 +1,9 @@
 ---
-title: 在C#里使用反射INSERT SQL
+title: 在C#中用反射简易实现ORM
 date: 2020-10-07 11:30:08
 ---
 
-学习了一些面向对象的语言之后，总会想要实现一些高层次的抽象。这篇文章将用model和反射将SQL语句从操作中剥离。
+学习了一些面向对象的语言之后，总会想要实现一些高层次的抽象。这篇文章用反射实现了insert SQL的命令，简易实现了ORM。
 
 # 数据库
 作为示例，先新建一个company database，再新建一个包含name、age、telephone、address四列的employees table。
@@ -57,11 +57,10 @@ namespace <ProjectName>.Model
         public string Name { get; }
         public int Age { get; }
         public string Telephone { get; }
-        public string Company { get; }
         public string Address { get; }
 
-        public Employee(string name, int age, string telephone,
-            string address)
+        public Employee(string name, int age,
+            string telephone, string address)
         {
             Name = name;
             Age = age;

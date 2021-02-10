@@ -2,7 +2,7 @@ sudo: false
 language: node_js
 node_js:
   - 15
-cache: yarn
+cache: npm
 branches:
   only:
     - master # build master branch only

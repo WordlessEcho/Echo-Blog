@@ -30,7 +30,7 @@ date: 2020-06-30 23:21:17
 ![其实是外婆的一番好意](https://i.loli.net/2020/06/30/3VOruplqzILegBR.jpg)
 
 这时，女主的设计师的弟子安田找上门来复仇。因为女主伤人事件，他的老师走头无路，郁郁而终。他反复地将自己的怒气撒在女主身上，此时的男主刚起床，才得知女主遭遇不测，翻看女主的日志，发现女主已经完全拾回三十年前的记忆。并且从**日志中的泪痕**里得知了女主拥有「心」。
-![哭着写日志](https://i.loli.net/2020/06/30/PrMU6scf1VICK8A.jpg)
+![哭着写日志](https://i.loli.net/2021/02/10/2gKmoxFvf8JyChU.png)
 
 出门前发现女主忘穿鞋子，这里会有第三个选项：1. 捡起鞋子 2. 放着不管。如果前两个选项选择正确，捡起鞋子的happy ending就会变成可选，反之进入bad ending。两个选项都触发过后，主界面才会显示true ending。（见[全结局攻略](https://steamcommunity.com/sharedfiles/filedetails/?id=2134692491)）
 ![TE触发选项](https://i.loli.net/2020/06/30/nOzCaehmySWdRX9.jpg)

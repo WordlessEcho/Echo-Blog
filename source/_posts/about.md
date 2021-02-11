@@ -36,22 +36,20 @@ date: 2020-04-05 18:21:13
 不要觉得我很高冷，毕竟一来我没法写介绍，二来如果我完全不认识你也没法叫**友情**链接啦w。
 下面列出的顺序应该是认识的时间顺序（大概？），没有列出的可能是没找到链接，更多可能是因为我不确定对方认不认识我。
 
-- [是萝莉控](https://www.wsl.moe/)：他换了太多圈名，我已经没法记得他原来的名字了。但是他曾维护过一个知名的Telegram相关项目。
+- [Kela Kim](https://www.wsl.moe/)
 
-- [Beet Yang](https://beetman.net/)：比特杨（🐏），每天都被缺德。在[Android Dress](https://t.me/AndroidDress)认识的群友。
+- [Beet Yang](https://beetman.net/)
 
-- [Elepover](https://daily.elepover.com/)：E猪，在[Android Dress](https://t.me/AndroidDress)认识的群友。
+- [Elepover](https://daily.elepover.com/)
 
-- [Simon Smh](https://simonsmh.cc/)：据说是几百斤肥宅（跑），在[Android Dress](https://t.me/AndroidDress)认识的群友。
+- [Simon Smh](https://simonsmh.cc/)
 
-- [烧饼（Siu Beng）](https://feng.moe/)：小有人气的Android开发者，我正在使用他开发的
-[悬浮字幕](https://play.google.com/store/apps/details?id=moe.feng.danmaqua)。
+- [烧饼](https://feng.moe/)
 
-- [Makito](https://mak1t0.cc/)：玛奇朵，小有人气的Android开发者。我没用过她开发的作品，但是发的照片很好看（小声）。
+- [Makito](https://mak1t0.cc/)
 
-- [萝卜](https://eatradish.github.io/)：这套博客主题正是她的作品。她说她写的东西全都是无用的垃圾，而且是故意的。
-但我觉得她有一些吸引人的地方。
+- [萝卜](https://eatradish.github.io/)
 
-- [白兔](https://daisuke.moe/)：因为她和另一个人经常成对出现，所以我总是叫错她的名字，大概她也记住我了吧（×）。
+- [白兔](https://daisuke.moe/)
 
-- [47](https://blog.cn47mp.moe/)：一开始我把他叫做白纸，是因为他真的很纯洁。只是周围有淤泥，白纸也不会一直是白纸的（悲）。
+- [47](https://blog.cn47mp.moe/)

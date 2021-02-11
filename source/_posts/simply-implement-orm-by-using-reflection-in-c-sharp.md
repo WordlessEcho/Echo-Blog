@@ -4,6 +4,7 @@ date: 2020-10-07 11:30:08
 ---
 
 学习了一些面向对象的语言之后，总会想要实现一些高层次的抽象。这篇文章用反射实现了insert SQL的命令，简易实现了ORM。
+<!--more-->
 
 # 数据库
 作为示例，先新建一个company database，再新建一个包含name、age、telephone、address四列的employees table。

@@ -2,19 +2,21 @@
 title: 用CloudFlare重定向域名
 date: 2018/12/22 03:14:16
 ---
+拥有多个域名后的烦恼。
+<!--more-->
+----
+
 # 需求
 我有一个用我真名命名的域名，姑且称为 xiaoming.com。有一个圈名命名的域名，姑且称为 example.com。
 - 将 xiaoming.com/ 和 www.xiaoming.com/ 的请求 301 重定向到 example.com/about
 - 向下兼容以前在 xiaoming.com 下创建过的文章链接
 - 将 www.example.com 的请求全部重定向到 example.com
-<!--more-->
 
 # 配置
 ## 页面规则（Page Rules）
 CloudFlare 有一个强大的功能，叫做 Page Rules，它可以实现链接匹配并进行一些特殊操作，例如：始终使用 HTTPS、始终在线（always online）和链接跳转等功能。免费版下，每个域名有三条规则的上限，不过对于现有需求来说也够用了。
 
 首先打开 CloudFlare 面板 > xiaoming.com > Page Rules 来创建两条规则：
-
 - If：\*xiaoming.com/，then：https://example.com/about
 - If：\*xiaoming.com/\*，then：https://example.com/$2
 

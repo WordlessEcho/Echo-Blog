@@ -56,8 +56,9 @@ prismjs:
   preprocess: true
   line_number: true
   tab_replace: ''
-marked:
-  breaks: false
+feed:
+  type: atom
+  path: atom.xml
 
 # Home page setting
 # path: Root path for your blogs index page. (default = '')
@@ -67,9 +68,6 @@ index_generator:
   path: ''
   per_page: 10
   order_by: -date
-feed:
-  type: atom
-  path: atom.xml
 
 # Category & Tag
 default_category: uncategorized

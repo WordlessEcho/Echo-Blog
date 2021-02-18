@@ -1,7 +1,6 @@
 ---
 title: Bash命令行小白入门：第0节⸺环境准备
 date: 2021-02-14 18:12:51
-tags:
 ---
 
 各位好！欢迎大家来学习《Bash命令行小白入门》。
@@ -90,6 +89,9 @@ $ qq login --id "123456789" --password "password"
 ![命令行提示](https://i.loli.net/2021/02/14/lLEFDeNZO2J1SGu.png)
 
 输入（不要直接复制粘贴）「echo HelloWorld」后按回车键，返回「HelloWorld」代表bash运行正常。
+```bash
+$ echo HelloWorld
+```
 ![echo运行结果](https://i.loli.net/2021/02/14/ox6YDCTKOQ7AaMP.png)
 
 ### macOS用户
@@ -105,6 +107,9 @@ macOS也就是所谓的「苹果系统」，它的内核其实和Linux有千丝�
 ![命令行提示](https://i.loli.net/2021/02/14/Nq9GfM8dKBtmSLP.png)
 
 输入（不要直接复制粘贴）「echo HelloWorld」后按回车键，返回「HelloWorld」代表bash运行正常。
+```bash
+$ echo HelloWorld
+```
 ![echo运行结果](https://i.loli.net/2021/02/14/PrjhTiNbgtLd4Fq.png)
 
 ### Linux用户
@@ -120,6 +125,9 @@ Linux发行版种类繁多，但打开「终端」的步骤大同小异，下面
 ![命令行提示](https://i.loli.net/2021/02/14/7hVdOls8ELTYnzZ.png)
 
 输入（不要直接复制粘贴）「echo HelloWorld」后按回车键，返回「HelloWorld」代表bash运行正常。
+```bash
+$ echo HelloWorld
+```
 ![echo运行结果](https://i.loli.net/2021/02/14/noiZR3khcSUvKOs.png)
 
 ## 小结

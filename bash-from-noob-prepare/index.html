@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    
+    <title>Bash命令行小白入门：第0节⸺环境准备 - 回音的博客</title>
+    <meta charset="utf-8">
+    
+    <meta name="title" content="Bash命令行小白入门：第0节⸺环境准备 - 回音的博客">
+    <meta name="description" content="">
+    <meta property="og:image" content="/favicon.png">
+    <meta property="og:image:width" content="200" />
+    <meta property="og:image:height" content="200" />
+    
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Source Serif Pro', 'Source Han Serif SC', 'Noto Serif CJK SC', 'Noto Serif SC', serif
+        }
+    </style>
+    <link rel="shortcut icon" href="/favicon.png">
+    
+    <link rel="stylesheet"
+        href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/styles/arduino-light.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<script src="/js/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="回音的博客" type="application/atom+xml">
+</head>
+
+
+<body>
+    <header class="header">
+    <div class="blog-title">
+        <a href="/" class="logo">回音的博客</a>
+    </div>
+    <nav class="navbar">
+        <ul class="menu">
+            
+            
+            
+            <li class="menu-item">
+                
+                <a href="/" class="menu-item-link">主页</a>
+                
+            </li>
+            
+            
+            
+            <li class="menu-item">
+                
+                <a href="/about" class="menu-item-link">关于</a>
+                
+            </li>
+            
+            
+            
+            <li class="menu-item">
+                
+                <a href="/atom.xml" class="menu-item-link">订阅</a>
+                
+            </li>
+            
+        </ul>
+    </nav>
+</header>
+    <main class="main">
+        <article class="post">
+    <div class="post-title">
+        <h1 class="title">Bash命令行小白入门：第0节⸺环境准备</h2>
+    </div>
+    <div class="post-content">
+        <p>各位好！欢迎大家来学习《Bash命令行小白入门》。</p>
+<a id="more"></a>
+
+<p>我是没有字的回音。在开始之前，我想和各位介绍一下Bash。</p>
+<h2 id="什么是Bash"><a href="#什么是Bash" class="headerlink" title="什么是Bash"></a>什么是Bash</h2><blockquote>
+<p>Bash is the shell, or command language interpreter, for the GNU operating system.</p>
+<p>（引自：<a target="_blank" rel="noopener" href="https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#What-is-Bash_003f">Bash Reference Manual</a>）</p>
+</blockquote>
+<p>简单翻译一下：「Bash是为GNU操作系统打造的shell⸺一种命令语言解释器。」。用大白话说，这就是Linux系统上的命令行。</p>
+<p>这句话一下引申出两个概念：Linux系统和命令行。</p>
+<h2 id="什么是Linux系统"><a href="#什么是Linux系统" class="headerlink" title="什么是Linux系统"></a>什么是Linux系统</h2><p><img src="https://i.loli.net/2021/02/14/hPOBvfEoJcYs4uD.png" alt="Linux形象"><br>和Windows一样，Linux是一种系统。它被广泛应用在服务器、嵌入式设备（比如智能硬件和路由器）中，还有Android操作系统里也有它的影子。</p>
+<h2 id="什么是命令行"><a href="#什么是命令行" class="headerlink" title="什么是命令行"></a>什么是命令行</h2><p>命令行是一种人和机器交流的方式，相对应的则是图形化交互界面。有些朋友可能已经接触过一些简单的命令行了，比如用<code>ping baidu.com</code>测试网络是否正常。<br><img src="https://i.loli.net/2021/02/14/FWBO4SqZKtAXVH7.png" alt="网络测试"></p>
+<p>我给大家举一个例子，平时大家登录QQ，是像这样输入QQ号和密码：</p>
+<p><img src="https://i.loli.net/2021/02/14/B25dnkTEo7xyZc9.png" alt="QQ登录界面"></p>
+<p>在命令行里，会是像这样：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ qq login --id <span class="string">&quot;123456789&quot;</span> --password <span class="string">&quot;password&quot;</span></span><br></pre></td></tr></table></figure>
+<p>（实际上QQ并未提供命令行版本）</p>
+<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><p>下面我们就进入今天的正题：环境准备。不用担心，这门课不需要各位安装Linux系统。</p>
+<h3 id="Windows用户"><a href="#Windows用户" class="headerlink" title="Windows用户"></a>Windows用户</h3><p>大部分人都使用的是Windows系统，Windows的同学需要先安装一个叫「子系统」的应用，这个东西我们可以理解为一个模拟器，就像是我们平时玩手游用的模拟器。下面我会教大家如何安装这个虚拟机。</p>
+<p>首先点击开始，找到「Microsoft Store」这个应用商店。<br><img src="https://i.loli.net/2021/02/14/J9xUuaGTBNbfksl.png" alt="找到开始菜单"></p>
+<p>点击右上角的搜索按钮。<br><img src="https://i.loli.net/2021/02/14/CMj9PXyGeTlEfDs.png" alt="搜索按钮"></p>
+<p>在搜索框内输入「Ubuntu」后按回车。<br><img src="https://i.loli.net/2021/02/14/xfbi5eDKkBJzpS7.png" alt="搜索Ubuntu"></p>
+<p>点击第一个搜索结果。<br><img src="https://i.loli.net/2021/02/14/G9172UZJ6emrcPB.png" alt="搜索详情"></p>
+<p>然后按「获取」或者「安装」。<br><img src="https://i.loli.net/2021/02/14/QW7CgIzZNlGn5dc.png" alt="获取Ubuntu"></p>
+<p>如果提示需要登录帐户，直接关闭忽略即可。<br><img src="https://i.loli.net/2021/02/14/WcmiKry5FGejh8l.png" alt="忽略登录请求"><br><img src="https://i.loli.net/2021/02/14/mb2PJS6eivdGIYx.png" alt="关闭登录窗口"></p>
+<p>下载完成后，不急着打开。先打开开始菜单，然后直接输入「启用或关闭Windows功能」。<br><a target="_blank" rel="noopener" href="https://imgchr.com/i/yyKpvD"><img src="https://s3.ax1x.com/2021/02/14/yyKpvD.gif" alt="启用Windows功能"></a></p>
+<p>勾选「适用于Linux的Windows子系统」，然后按确定。<br><img src="https://i.loli.net/2021/02/14/t2kwBXgIxJEpV3f.png" alt="启用子系统"></p>
+<p>在接下来的窗口里点击重启。<br><img src="https://i.loli.net/2021/02/14/gkrwaLq7feIctZN.png" alt="重启请求"></p>
+<p>重启后，点击开始菜单，找到「Ubuntu」应用。<br><img src="https://i.loli.net/2021/02/14/FDqJveNG8RcoOAi.png" alt="Ubuntu应用"></p>
+<p>打开后，Ubuntu会执行安装，耐心等待一段时间。<br><img src="https://i.loli.net/2021/02/14/enApdjhXBkzS7wY.png" alt="正在安装"></p>
+<p>当界面上出现「Enter new UNIX username:」时，说明安装已经完成。下面需要设定一下用户名和密码。</p>
+<p>给自己起一个用户名，这个用户名可以随意命名，不必与Windows中的一致。例如我想叫「echo」，输入后按回车。<br><img src="https://i.loli.net/2021/02/14/iY7RAhwSEjJHfy8.png" alt="用户名例子"></p>
+<p>给自己起一个密码，这个密码也是可以随意起的，不必与Windows中的一致。需要输入两次，但是输入密码时是没有任何提示的，直接盲打就可以了。<br><img src="https://i.loli.net/2021/02/14/ynFHSDfTIaduJeA.png" alt="两次输入密码"></p>
+<p>如果看到一行绿色的字，就代表配置已经完成了。注意，红框中的内容会因为用户名和计算机名而有差异，所以与图中内容有所不同十分正常。重要的是后面闪烁的横线。<br><img src="https://i.loli.net/2021/02/14/lLEFDeNZO2J1SGu.png" alt="命令行提示"></p>
+<p>输入（不要直接复制粘贴）「echo HelloWorld」后按回车键，返回「HelloWorld」代表bash运行正常。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> HelloWorld</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2021/02/14/ox6YDCTKOQ7AaMP.png" alt="echo运行结果"></p>
+<h3 id="macOS用户"><a href="#macOS用户" class="headerlink" title="macOS用户"></a>macOS用户</h3><p>macOS也就是所谓的「苹果系统」，它的内核其实和Linux有千丝万缕的关系。对于macOS用户来说，只需要找到「终端」并打开就行了。</p>
+<p>点击「启动台（launchpad）」。<br><img src="https://i.loli.net/2021/02/14/cyGeY7RDhmM5NuZ.png" alt="启动台"></p>
+<p>在搜索框输入「终端」或「Terminal」。<br><img src="https://i.loli.net/2021/02/14/HwP3Z7iAY6JRlC2.png" alt="搜索终端"></p>
+<p>点击打开终端。注意，红框中的内容会因为用户名和计算机名而有差异，所以与图中内容有所不同十分正常。重要的是后面闪烁的竖线。<br><img src="https://i.loli.net/2021/02/14/Nq9GfM8dKBtmSLP.png" alt="命令行提示"></p>
+<p>输入（不要直接复制粘贴）「echo HelloWorld」后按回车键，返回「HelloWorld」代表bash运行正常。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> HelloWorld</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2021/02/14/PrjhTiNbgtLd4Fq.png" alt="echo运行结果"></p>
+<h3 id="Linux用户"><a href="#Linux用户" class="headerlink" title="Linux用户"></a>Linux用户</h3><p>Linux发行版种类繁多，但打开「终端」的步骤大同小异，下面我会演示一下Ubuntu打开终端的过程。</p>
+<p>点击「显示应用程序」。<br><img src="https://i.loli.net/2021/02/14/UCTGMJR32pv1tW7.png" alt="显示应用程序"></p>
+<p>在搜索框输入「终端」。<br><img src="https://i.loli.net/2021/02/14/KOpxJgR9zoTkwFM.png" alt="搜索终端"></p>
+<p>点击打开终端。注意，红框中的内容会因为用户名和计算机名而有差异，所以与图中内容有所不同十分正常。重要的是后面闪烁的竖线。<br><img src="https://i.loli.net/2021/02/14/7hVdOls8ELTYnzZ.png" alt="命令行提示"></p>
+<p>输入（不要直接复制粘贴）「echo HelloWorld」后按回车键，返回「HelloWorld」代表bash运行正常。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> HelloWorld</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2021/02/14/noiZR3khcSUvKOs.png" alt="echo运行结果"></p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ul>
+<li><strong>学会打开命令行</strong>：Windows用户要打开「Ubuntu」应用，而macOS和Linux用户需要找到「终端」应用并打开。</li>
+<li><strong>执行第一条命令</strong>：用「echo HelloWorld」命令来测试我们是否正确打开了bash。</li>
+</ul>
+<p>以上就是本节课的全部内容，我们下节课见。</p>
+
+    </div>
+    <div class="post-meta">
+        
+    <span class="post-time">2021/02/14</span>
+    </div>
+</article>
+
+<div class="prev_next">
+    <nav id="prev_next">
+
+<div class="prev">
+    
+</div>
+<div class="next">
+    
+    <p>下一篇</p>
+    <a href="/simply-implement-orm-by-using-reflection-in-c-sharp/"><div class="article-nav-title">在C#中用反射简易实现ORM</div></a>
+    
+</div>
+
+</nav>
+</div>
+
+<div class="post-comment">
+    
+
+
+
+</div>
+
+    </main>
+    <p class="license">本站文章使用 CC BY-SA 4.0 许可。</p>
+</body>
+
+</html>

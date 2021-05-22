@@ -56,9 +56,10 @@ prismjs:
   preprocess: true
   line_number: true
   tab_replace: ''
-feed:
-  type: atom
-  path: atom.xml
+markdown:
+  plugins:
+    - markdown-it-cjk-breaks
+    - markdown-it-footnote
 
 # Home page setting
 # path: Root path for your blogs index page. (default = '')
@@ -102,6 +103,9 @@ ignore:
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
 theme: Seje
+feed:
+  type: atom
+  path: atom.xml
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment

@@ -8,6 +8,7 @@ date: 2020-10-07 11:30:08
 
 # 数据库
 作为示例，先新建一个company database，再新建一个包含name、age、telephone、address四列的employees table。
+
 ```SQL
 CREATE DATABASE company;
 USE company;
@@ -23,6 +24,7 @@ CREATE TABLE employees (
 ```
 
 创建好以后的结构如下：
+
 ```SQL
 SHOW DATABASES;
 +--------------------+
@@ -48,6 +50,7 @@ SHOW TABLES;
 
 # model
 新建一个model文件夹。按照上面创建的数据库，在model下创建一个employee类。
+
 ```csharp
 namespace <ProjectName>.Model
 {
@@ -76,7 +79,8 @@ namespace <ProjectName>.Model
 注意，设定`getter`对于`GetProperties()`来说是必要的。
 
 # 数据库连接
-新建Dao文件夹，在Dao下新建一个使用[单例模式][1]的CompanyDb类，用于连接到数据库。
+新建Dao文件夹，在Dao下新建一个使用单例模式[^1]的CompanyDb类，用于连接到数据库。
+
 ```csharp
 namespace <ProjectName>.Dao
 {
@@ -103,7 +107,8 @@ namespace <ProjectName>.Dao
 
 # 操作数据表
 ## 分解
-在Dao下新建EmployeeHandler，并创建一个接收`Model.Employee`对象的Add函数
+在Dao下新建EmployeeHandler，并创建一个接收`Model.Employee`对象的Add函数：
+
 ```csharp
 namespace <ProjectName>.Dao
 {
@@ -119,7 +124,8 @@ namespace <ProjectName>.Dao
 }
 ```
 
-首先，将model的[属性名与属性值映射为字典][2]。
+首先，将model的属性名与属性值映射为字典[^2]。
+
 ```csharp
 // Put property names and property values of model as pairs into dictionary
 Dictionary<string, object> propertyDict = model.GetType().GetProperties()
@@ -131,7 +137,7 @@ Dictionary<string, object> propertyDict = model.GetType().GetProperties()
     );
 ```
 
-结合Dictionary.Keys和Dictionary.Values分别[获取它们的键的列表与值的列表][3]，再使用`string.Join()`构造SQL命令语句。
+结合Dictionary.Keys和Dictionary.Values分别获取它们的键的列表与值的列表[^3]，再使用`string.Join()`构造SQL命令语句。
 ```csharp
 // Build a SQL command by traversing properties of model
 // For example: "INSERT INTO table (column1, column2) VALUES ('value1', 'value2');"
@@ -190,6 +196,6 @@ EmployeeHandler.Add(new Model.Employee(name, age, telephone, address));
 ```
 
 
-[1]: <https://csharpindepth.com/articles/singleton> "单例模式"
-[2]: <https://stackoverflow.com/questions/4943817/mapping-object-to-dictionary-and-vice-versa/4944547#4944547> "属性名与属性值映射为字典"
-[3]: <https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2?view=netcore-3.1#examples> "获取它们的键的列表与值的列表"
+[^1]: [Implementing the Singleton Pattern in C#](https://csharpindepth.com/articles/singleton)
+[^2]: [c# - Mapping object to dictionary and vice versa - Stack Overflow](https://stackoverflow.com/questions/4943817/mapping-object-to-dictionary-and-vice-versa/4944547#4944547)
+[^3]: [Dictionary<TKey,TValue> Class (System.Collections.Generic) | Microsoft Docs](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2?view=netcore-3.1#examples)

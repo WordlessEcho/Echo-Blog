@@ -3,7 +3,7 @@ title: Dynamic display dividers on scrollable Dialog of Material UI
 date: 2021/06/22 08:48:19
 ---
 
-Hide top divider while scrolling to the top, hide bottom divider while scrolling to the end?
+Hide top divider while scrolling to the top, hide bottom divider while scrolling to the end.
 <!--more-->
 ----
 

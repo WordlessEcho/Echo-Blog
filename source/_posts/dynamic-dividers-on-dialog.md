@@ -1,5 +1,5 @@
 ---
-title: Dynamic display dividers on scrollable Dialog of Material UI
+title: Dynamic Display Dividers on Scrollable Dialog of Material UI
 date: 2021/06/22 08:48:19
 ---
 

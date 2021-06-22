@@ -81,19 +81,16 @@
     <div class="post-content">
         <p>由于广电政策限制，IPTV 是无法随意安装应用的，但这个盒子搭载 Andorid 系统还有 Wi-Fi，不用实在太可惜。一般这样的设备都会开放网络 ADB，用 ADB 安装之后再用 ADB 打开就可以了。</p>
 <span id="more"></span>
-
 <p>ADB 的端口开放在 30016，找到盒子的 IP 然后连接：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb connect &lt;IP&gt;:30016</span><br></pre></td></tr></table></figure>
-
 <p>连接成功后再安装 APK：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb install &lt;path-to-your-apk&gt;.apk</span><br></pre></td></tr></table></figure>
-
 <p>再使用 monkey 打开应用：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell monkey -p app.package.name -c android.intent.category.LAUNCHER 1</span><br></pre></td></tr></table></figure>
-
-<h1 id="感谢"><a href="#感谢" class="headerlink" title="感谢"></a>感谢</h1><ul>
-<li><a target="_blank" rel="noopener" href="https://www.znds.com/forum.php?mod=viewthread&tid=1138683">UNT401H 破解 思路_中国移动魔百盒_ZNDS</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.mydigit.cn/forum.php?mod=viewthread&tid=8849">九联UNT401H魔百合adb安装当贝桌面 - 机顶盒/智能电视 数码之家</a></li>
+<h1>感谢</h1>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.znds.com/forum.php?mod=viewthread&amp;tid=1138683">UNT401H 破解 思路_中国移动魔百盒_ZNDS</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.mydigit.cn/forum.php?mod=viewthread&amp;tid=8849">九联UNT401H魔百合adb安装当贝桌面 - 机顶盒/智能电视 数码之家</a></li>
 <li><a target="_blank" rel="noopener" href="https://stackoverflow.com/a/25398877">How to start an application using android ADB tools? - Stack Overflow</a></li>
 </ul>
 

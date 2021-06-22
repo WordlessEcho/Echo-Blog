@@ -80,35 +80,43 @@
     </div>
     <div class="post-content">
         <p>拥有多个域名后的烦恼。</p>
-<span id="more"></span>
-<hr>
-<h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1><p>我有一个用我真名命名的域名，姑且称为 xiaoming.com。有一个圈名命名的域名，姑且称为 example.com。</p>
+<h2 id="more"><span id="more"></span></h2>
+<h1>需求</h1>
+<p>我有一个用我真名命名的域名，姑且称为<code>xiaoming.com</code>。有一个圈名命名的域名，姑且称为<code>example.com</code>。</p>
 <ul>
-<li>将 xiaoming.com/ 和 <a target="_blank" rel="noopener" href="http://www.xiaoming.com/">www.xiaoming.com/</a> 的请求 301 重定向到 example.com/about</li>
-<li>向下兼容以前在 xiaoming.com 下创建过的文章链接</li>
-<li>将 <a target="_blank" rel="noopener" href="http://www.example.com/">www.example.com</a> 的请求全部重定向到 example.com</li>
+<li>将<code>xiaoming.com/</code>和<code>www.xiaoming.com/</code>的请求301重定向到<code>example.com/about</code></li>
+<li>向下兼容以前在<code>xiaoming.com</code>下创建过的文章链接</li>
+<li>将<code>www.example.com</code>的请求全部重定向到<code>example.com</code></li>
 </ul>
-<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h2 id="页面规则（Page-Rules）"><a href="#页面规则（Page-Rules）" class="headerlink" title="页面规则（Page Rules）"></a>页面规则（Page Rules）</h2><p>CloudFlare 有一个强大的功能，叫做 Page Rules，它可以实现链接匹配并进行一些特殊操作，例如：始终使用 HTTPS、始终在线（always online）和链接跳转等功能。免费版下，每个域名有三条规则的上限，不过对于现有需求来说也够用了。</p>
-<p>首先打开 CloudFlare 面板 &gt; xiaoming.com &gt; Page Rules 来创建两条规则：</p>
+<h1>配置</h1>
+<h2 id="页面规则（Page-Rules）">页面规则（Page Rules）</h2>
+<p>CloudFlare 有一个强大的功能，叫做 Page Rules，它可以实现链接匹配并进行一些特殊操作，例如：始终使用 HTTPS、始终在线（always online）和链接跳转等功能。免费版下，每个域名有三条规则的上限，不过对于现有需求来说也够用了。</p>
+<p>首先打开 CloudFlare 面板 &gt; <a target="_blank" rel="noopener" href="http://xiaoming.com">xiaoming.com</a> &gt; Page Rules 来创建两条规则：</p>
 <ul>
-<li>If：*xiaoming.com/，then：<a target="_blank" rel="noopener" href="https://example.com/about">https://example.com/about</a></li>
-<li>If：*xiaoming.com/*，then：<a target="_blank" rel="noopener" href="https://example.com/$2">https://example.com/$2</a></li>
+<li>If: <code>*xiaoming.com/</code>, then: <code>https://example.com/about</code></li>
+<li>If: <code>*xiaoming.com/*</code>, then: <code>https://example.com/$2</code></li>
 </ul>
 <blockquote>
 <p>因为规则是顺位匹配的，所以在添加规则时，一定要注意规则的排序。</p>
 </blockquote>
-<p>同样，打开 example.com 的 Page Rules：</p>
+<p>同样，打开 <a target="_blank" rel="noopener" href="http://example.com">example.com</a> 的 Page Rules：</p>
 <ul>
-<li>If：*example.com/*，then：<a target="_blank" rel="noopener" href="https://example.com/$2">https://example.com/$2</a></li>
+<li>If: <code>*example.com/*</code>, then: <code>https://example.com/$2</code></li>
 </ul>
 <p>上述几条规则对于有编程经验的人来说应该不难理解，这里稍微做一些说明：</p>
 <ul>
-<li>* 即通配符，在此位置上的任意字符都会被判定为符合规则。比如 blog.example.com、<a target="_blank" rel="noopener" href="http://www.example.com/">www.example.com</a> 和 example.com/foobar 都会匹配到 *example.com/* 这条规则，而 example.com/foobar 和 <a target="_blank" rel="noopener" href="http://www.example.com/foobar">www.example.com/foobar</a> 就不会匹配到 *example.com/ 这条规则。</li>
-<li>$ 类似于参数，$1 代表着 if 中第一个 * 里的字段，以此类推，$2 就是第二个 * 中的字段。例如 <a target="_blank" rel="noopener" href="https://example.com/foobar">https://example.com/foobar</a> 在上述 example.com 的规则一里，$1 就是「https://」，$2 就是「foobar」。</li>
+<li>
+<p><code>*</code>即通配符，在此位置上的任意字符都会被判定为符合规则。比如<code>blog.example.com</code>、<code>www.example.com</code>和<code>example.com/foobar</code>都会匹配到<code>*example.com/*</code>这条规则，而<code>example.com/foobar</code>和<code>www.example.com/foobar</code>就不会匹配到<code>*example.com/</code>这条规则。</p>
+</li>
+<li>
+<p><code>$</code>类似于参数，<code>$1</code>代表着if中第一个<code>*</code>里的字段，以此类推，<code>$2</code>就是第二个<code>*</code>中的字段。例如<code>https://example.com/foobar</code>在上述<code>example.com</code>的规则一里，<code>$1</code>就是「https://」，<code>$2</code>就是「foobar」。</p>
+</li>
 </ul>
-<h1 id="DNS-解析记录"><a href="#DNS-解析记录" class="headerlink" title="DNS 解析记录"></a>DNS 解析记录</h1><p>一开始在这里百思不得其解，没有解析记录的域名当然是无法被解析的，访问时找不到 IP，当然没法跳转。</p>
-<p>所以我们需要新建 <a target="_blank" rel="noopener" href="http://www.xiaoming.com、xiaoming.com/">www.xiaoming.com、xiaoming.com</a> 和 <a target="_blank" rel="noopener" href="http://www.example.com/">www.example.com</a> 这三条解析记录，在这里我将解析类型设为 CNAME，值设为了 example.com，而 CDN 保持默认开启状态，否则可能会出现证书问题。至此，我们设定的 Page Rules 就生效了。</p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<h1>DNS 解析记录</h1>
+<p>一开始在这里百思不得其解，没有解析记录的域名当然是无法被解析的，访问时找不到IP，当然没法跳转。</p>
+<p>所以我们需要新建<code>www.xiaoming.com</code>、<code>xiaoming.com</code>和<code>www.example.com</code>这三条解析记录，在这里我将解析类型设为 CNAME，值设为了<code>example.com</code>，而CDN保持默认开启状态，否则可能会出现证书问题。至此，我们设定的<code>Page Rules</code>就生效了。</p>
+<h1>参考</h1>
+<ul>
 <li><a target="_blank" rel="noopener" href="https://support.cloudflare.com/hc/en-us/articles/200172286-How-do-I-perform-URL-forwarding-or-redirects-with-Cloudflare">How do I perform URL forwarding or redirects with Cloudflare?</a></li>
 <li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-cn/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F">正则表达式 - 维基百科，自由的百科全书</a></li>
 <li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/5163144/what-are-the-special-dollar-sign-shell-variables">What are the special dollar sign shell variables? - Stack Overflow</a></li>

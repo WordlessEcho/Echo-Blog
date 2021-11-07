@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    
+    <title>在C#中用反射简易实现ORM - 回音的博客</title>
+    <meta charset="utf-8">
+    
+    <meta name="title" content="在C#中用反射简易实现ORM - 回音的博客">
+    <meta name="description" content="">
+    <meta property="og:image" content="/favicon.png">
+    <meta property="og:image:width" content="200" />
+    <meta property="og:image:height" content="200" />
+    
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Source Serif Pro', 'Source Han Serif SC', 'Noto Serif CJK SC', 'Noto Serif SC', serif
+        }
+    </style>
+    <link rel="shortcut icon" href="/favicon.png">
+    
+    <link rel="stylesheet"
+        href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/styles/arduino-light.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<script src="/js/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="回音的博客" type="application/atom+xml">
+</head>
+
+
+<body>
+    <header class="header">
+    <div class="blog-title">
+        <a href="/" class="logo">回音的博客</a>
+    </div>
+    <nav class="navbar">
+        <ul class="menu">
+            
+            
+            
+            <li class="menu-item">
+                
+                <a href="/" class="menu-item-link">主页</a>
+                
+            </li>
+            
+            
+            
+            <li class="menu-item">
+                
+                <a href="/about" class="menu-item-link">关于</a>
+                
+            </li>
+            
+            
+            
+            <li class="menu-item">
+                
+                <a href="/atom.xml" class="menu-item-link">订阅</a>
+                
+            </li>
+            
+        </ul>
+    </nav>
+</header>
+    <main class="main">
+        <article class="post">
+    <div class="post-title">
+        <h1 class="title">在C#中用反射简易实现ORM</h2>
+    </div>
+    <div class="post-content">
+        <p>学习了一些面向对象的语言之后，总会想要实现一些高层次的抽象。这篇文章用反射实现了insert SQL的命令，简易实现了ORM。</p>
+<span id="more"></span>
+<h1>数据库</h1>
+<p>作为示例，先新建一个company database，再新建一个包含name、age、telephone、address四列的employees table。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> DATABASE company;</span><br><span class="line">USE company;</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> employees (</span><br><span class="line">    id <span class="type">INT</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">    Name <span class="type">VARCHAR</span>(<span class="number">20</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">    Age <span class="type">INT</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">    Telephone <span class="type">VARCHAR</span>(<span class="number">20</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">    Address <span class="type">VARCHAR</span>(<span class="number">40</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">    <span class="keyword">PRIMARY</span> KEY (id)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>创建好以后的结构如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> DATABASES;</span><br><span class="line"><span class="operator">+</span><span class="comment">--------------------+</span></span><br><span class="line"><span class="operator">|</span> Database           <span class="operator">|</span></span><br><span class="line"><span class="operator">+</span><span class="comment">--------------------+</span></span><br><span class="line"><span class="operator">|</span> company            <span class="operator">|</span></span><br><span class="line"><span class="operator">|</span>                    <span class="operator">|</span></span><br><span class="line"><span class="operator">|</span> <span class="operator">&lt;</span>...<span class="operator">&gt;</span>              <span class="operator">|</span></span><br><span class="line"><span class="operator">+</span><span class="comment">--------------------+</span></span><br><span class="line"></span><br><span class="line">USE company;</span><br><span class="line"><span class="keyword">SHOW</span> TABLES;</span><br><span class="line"><span class="operator">+</span><span class="comment">-------------------+</span></span><br><span class="line"><span class="operator">|</span> Tables_in_company <span class="operator">|</span></span><br><span class="line"><span class="operator">+</span><span class="comment">-------------------+</span></span><br><span class="line"><span class="operator">|</span> employees         <span class="operator">|</span></span><br><span class="line"><span class="operator">+</span><span class="comment">-------------------+</span></span><br><span class="line"></span><br><span class="line"><span class="operator">+</span><span class="comment">----+---------------+-----+-------------+-----------+</span></span><br><span class="line"><span class="operator">|</span> id <span class="operator">|</span> Name          <span class="operator">|</span> Age <span class="operator">|</span> Telephone   <span class="operator">|</span> Address   <span class="operator">|</span></span><br><span class="line"><span class="operator">+</span><span class="comment">----+---------------+-----+-------------+-----------+</span></span><br></pre></td></tr></table></figure>
+<h1>model</h1>
+<p>新建一个model文件夹。按照上面创建的数据库，在model下创建一个employee类。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> &lt;<span class="title">ProjectName</span>&gt;.<span class="title">Model</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Employee</span></span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// set getter for GetProperties()</span></span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">string</span> Name &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">int</span> Age &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">string</span> Telephone &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">string</span> Address &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Employee</span>(<span class="params"><span class="built_in">string</span> name, <span class="built_in">int</span> age,</span></span></span><br><span class="line"><span class="params"><span class="function">            <span class="built_in">string</span> telephone, <span class="built_in">string</span> address</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            Name = name;</span><br><span class="line">            Age = age;</span><br><span class="line">            Telephone = telephone;</span><br><span class="line">            Address = address;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意，设定<code>getter</code>对于<code>GetProperties()</code>来说是必要的。</p>
+<h1>数据库连接</h1>
+<p>新建Dao文件夹，在Dao下新建一个使用单例模式<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>的CompanyDb类，用于连接到数据库。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> &lt;<span class="title">ProjectName</span>&gt;.<span class="title">Dao</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">sealed</span> <span class="keyword">class</span> <span class="title">CompanyDb</span></span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">static</span> MySqlConnection Connection &#123; <span class="keyword">get</span> &#123; <span class="keyword">return</span> Nested.Connection; &#125; &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="title">CompanyDb</span>(<span class="params"></span>)</span> &#123; &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">class</span> <span class="title">Nested</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="function"><span class="keyword">static</span> <span class="title">Nested</span>(<span class="params"></span>)</span> &#123; &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">internal</span> <span class="keyword">static</span> <span class="keyword">readonly</span> MySqlConnection Connection = <span class="keyword">new</span></span><br><span class="line">                MySqlConnection(<span class="string">$&quot;server = localhost; User ID = &quot;</span> +</span><br><span class="line">                <span class="string">$&quot;<span class="subst">&#123;&lt;username&gt;&#125;</span>; Password = <span class="subst">&#123;&lt;Password&gt;&#125;</span>; DataBase = &quot;</span> +</span><br><span class="line">                <span class="string">&quot;company; Charset = utf8; convert zero datetime = true&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1>操作数据表</h1>
+<h2 id="分解">分解</h2>
+<p>在Dao下新建EmployeeHandler，并创建一个接收<code>Model.Employee</code>对象的Add函数：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> &lt;<span class="title">ProjectName</span>&gt;.<span class="title">Dao</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">EmployeeHandler</span></span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">static</span> <span class="keyword">public</span> <span class="built_in">int</span> <span class="title">Add</span>(<span class="params">Model.Employee model</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// Code will goes here</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先，将model的属性名与属性值映射为字典<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Put property names and property values of model as pairs into dictionary</span></span><br><span class="line">Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">object</span>&gt; propertyDict = model.GetType().GetProperties()</span><br><span class="line">    .ToDictionary</span><br><span class="line">    (</span><br><span class="line">        propInfo =&gt; propInfo.Name,</span><br><span class="line">        <span class="comment">// Add quote to avoid user input breaks SQL command</span></span><br><span class="line">        propInfo =&gt; <span class="string">$&quot;&#x27;<span class="subst">&#123;propInfo.GetValue(model, <span class="literal">null</span>)&#125;</span>&#x27;&quot;</span></span><br><span class="line">    );</span><br></pre></td></tr></table></figure>
+<p>结合Dictionary.Keys和Dictionary.Values分别获取它们的键的列表与值的列表<sup class="footnote-ref"><a href="#fn3" id="fnref3">[3]</a></sup>，再使用<code>string.Join()</code>构造SQL命令语句。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Build a SQL command by traversing properties of model</span></span><br><span class="line"><span class="comment">// For example: &quot;INSERT INTO table (column1, column2) VALUES (&#x27;value1&#x27;, &#x27;value2&#x27;);&quot;</span></span><br><span class="line"><span class="built_in">string</span> sqlCmd = <span class="string">$&quot;INSERT INTO employees (&quot;</span> +</span><br><span class="line">    <span class="string">$&quot;<span class="subst">&#123;<span class="built_in">string</span>.Join(<span class="string">&quot;, &quot;</span>, propertyDict.Keys)&#125;</span>) VALUES &quot;</span> +</span><br><span class="line">    <span class="string">$&quot;(<span class="subst">&#123;<span class="built_in">string</span>.Join(<span class="string">&quot;, &quot;</span>, propertyDict.Values)&#125;</span>);&quot;</span>;</span><br></pre></td></tr></table></figure>
+<p>剩下就是没什么好讲的执行过程了。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">MySqlCommand cmd  = <span class="keyword">new</span> MySqlCommand(sqlCmd, CompanyDb.connection);</span><br><span class="line">cmd.Connection.Open();</span><br><span class="line"><span class="built_in">int</span> resultCode = cmd.ExecuteNonQuery();</span><br><span class="line">cmd.Connection.Close();</span><br><span class="line"><span class="keyword">return</span> resultCode;</span><br></pre></td></tr></table></figure>
+<h2 id="总览">总览</h2>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> &lt;<span class="title">ProjectName</span>&gt;.<span class="title">Dao</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">EmployeeHandler</span></span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">static</span> <span class="keyword">public</span> <span class="built_in">int</span> <span class="title">Add</span>(<span class="params">Model.Employee model</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// Put property names and property values of model as pairs into dictionary</span></span><br><span class="line">            Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">object</span>&gt; propertyDict = model.GetType().GetProperties()</span><br><span class="line">                .ToDictionary</span><br><span class="line">                (</span><br><span class="line">                    propInfo =&gt; propInfo.Name,</span><br><span class="line">                    <span class="comment">// Add quote to avoid user input breaks SQL command</span></span><br><span class="line">                    propInfo =&gt; <span class="string">$&quot;&#x27;<span class="subst">&#123;propInfo.GetValue(model, <span class="literal">null</span>)&#125;</span>&#x27;&quot;</span></span><br><span class="line">                );</span><br><span class="line">                </span><br><span class="line">            <span class="comment">// Build a SQL command by traversing properties of model</span></span><br><span class="line">            <span class="comment">// For example: &quot;INSERT INTO table (column1, column2) VALUES (&#x27;value1&#x27;, &#x27;value2&#x27;);&quot;</span></span><br><span class="line">            <span class="built_in">string</span> sqlCmd = <span class="string">$&quot;INSERT INTO employees (&quot;</span> +</span><br><span class="line">                <span class="string">$&quot;<span class="subst">&#123;<span class="built_in">string</span>.Join(<span class="string">&quot;, &quot;</span>, propertyDict.Keys)&#125;</span>) VALUES &quot;</span> +</span><br><span class="line">                <span class="string">$&quot;(<span class="subst">&#123;<span class="built_in">string</span>.Join(<span class="string">&quot;, &quot;</span>, propertyDict.Values)&#125;</span>);&quot;</span>;</span><br><span class="line"></span><br><span class="line">            MySqlCommand cmd  = <span class="keyword">new</span> MySqlCommand(sqlCmd, CompanyDb.connection);</span><br><span class="line">            cmd.Connection.Open();</span><br><span class="line">            <span class="built_in">int</span> resultCode = cmd.ExecuteNonQuery();</span><br><span class="line">            cmd.Connection.Close();</span><br><span class="line">            <span class="keyword">return</span> resultCode;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1>使用</h1>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EmployeeHandler.Add(<span class="keyword">new</span> Model.Employee(name, age, telephone, address));</span><br></pre></td></tr></table></figure>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p><a target="_blank" rel="noopener" href="https://csharpindepth.com/articles/singleton">Implementing the Singleton Pattern in C#</a> <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/4943817/mapping-object-to-dictionary-and-vice-versa/4944547#4944547">c# - Mapping object to dictionary and vice versa - Stack Overflow</a> <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn3" class="footnote-item"><p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2?view=netcore-3.1#examples">Dictionary&lt;TKey,TValue&gt; Class (System.Collections.Generic) | Microsoft Docs</a> <a href="#fnref3" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+
+    </div>
+    <div class="post-meta">
+        
+    <span class="post-time">2020/10/07</span>
+    </div>
+</article>
+
+<div class="prev_next">
+    <nav id="prev_next">
+
+<div class="prev">
+    
+    <p>上一篇</p>
+    <a href="/dynamic-dividers-on-dialog/"><div class="article-nav-title">Dynamic Display Dividers on Scrollable Dialog of Material UI</div></a>
+    
+</div>
+<div class="next">
+    
+    <p>下一篇</p>
+    <a href="/atri/"><div class="article-nav-title">重重掩盖下的真心——《Atri -My Dear Moments-》</div></a>
+    
+</div>
+
+</nav>
+</div>
+
+<div class="post-comment">
+    
+
+
+
+</div>
+
+    </main>
+    <p class="license">本站文章使用 CC BY-SA 4.0 许可。</p>
+</body>
+
+</html>

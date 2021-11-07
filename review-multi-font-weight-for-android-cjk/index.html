@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    
+    <title>为Android的CJK加上多字重之拾遗 - 回音的博客</title>
+    <meta charset="utf-8">
+    
+    <meta name="title" content="为Android的CJK加上多字重之拾遗 - 回音的博客">
+    <meta name="description" content="">
+    <meta property="og:image" content="/favicon.png">
+    <meta property="og:image:width" content="200" />
+    <meta property="og:image:height" content="200" />
+    
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Source Serif Pro', 'Source Han Serif SC', 'Noto Serif CJK SC', 'Noto Serif SC', serif
+        }
+    </style>
+    <link rel="shortcut icon" href="/favicon.png">
+    
+    <link rel="stylesheet"
+        href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/styles/arduino-light.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<script src="/js/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="回音的博客" type="application/atom+xml">
+</head>
+
+
+<body>
+    <header class="header">
+    <div class="blog-title">
+        <a href="/" class="logo">回音的博客</a>
+    </div>
+    <nav class="navbar">
+        <ul class="menu">
+            
+            
+            
+            <li class="menu-item">
+                
+                <a href="/" class="menu-item-link">主页</a>
+                
+            </li>
+            
+            
+            
+            <li class="menu-item">
+                
+                <a href="/about" class="menu-item-link">关于</a>
+                
+            </li>
+            
+            
+            
+            <li class="menu-item">
+                
+                <a href="/atom.xml" class="menu-item-link">订阅</a>
+                
+            </li>
+            
+        </ul>
+    </nav>
+</header>
+    <main class="main">
+        <article class="post">
+    <div class="post-title">
+        <h1 class="title">为Android的CJK加上多字重之拾遗</h2>
+    </div>
+    <div class="post-content">
+        <p>从回顾看当下的Android对字体方面的功能改进。</p>
+<h2 id="more"><span id="more"></span></h2>
+<p>各位好，我是回音。是<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/25027320">Android 7+ 添加全字重 Noto Sans CJK</a>的作者。在过去三年多的时间里，Android经历了两个版本的迭代。从这篇文章落稿后，我又回顾了「为Android CJK字体加上多字重」的事情。</p>
+<h2 id="Maigsk模块">Maigsk模块</h2>
+<p>首先是<a target="_blank" rel="noopener" href="https://github.com/simonsmh">@simonsmh</a>维护的<br>
+<a target="_blank" rel="noopener" href="https://github.com/simonsmh/notocjk">notocjk</a>这个Magisk模块。它的旧名为magisk-notosanscjk-nougat，一开始由于GitHub免费版单文件最大大小限制为100MB，所以并没有采用单文件的super OTC方案，而是一个字重分一个文件。后来Android P加入了Noto Serif CJK，<a target="_blank" rel="noopener" href="https://github.com/simonsmh">@simonsmh</a>又做了一个NotoCJK-P。不久后合并到一个模块，即NotoCJK中处理。</p>
+<p>后来Magisk框架的主要维护者，John Wu决定清理低质模块，<a target="_blank" rel="noopener" href="https://twitter.com/topjohnwu/status/1229896206584664065">顺带一并清除了所有字体模块</a>。我能理解他的做法，大多数字体模块只是简单的将字体重命名为Roboto-Regular.ttf，然后把系统默认字体替换掉。不过NotoCJK这个模块绝不是，因为涉及到要加字重，所以必须要修改fonts.xml。具体大家可以看我原来写的文章。</p>
+<h2 id="Rikka的FontProvider">Rikka的FontProvider</h2>
+<p>Rikka在文章发布半年后推出了一个叫<a target="_blank" rel="noopener" href="https://github.com/RikkaApps/FontProvider">FontProvider</a>的应用。本质上是通过安装一个应用，下载全字重的字体文件，然后供各种应用调用。</p>
+<p>本意是希望建立一个生态，替换掉Google稀烂的<br>
+<a target="_blank" rel="noopener" href="https://developer.android.com/guide/topics/ui/look-and-feel/downloadable-fonts">downloadable fonts</a>，提供给不希望修改系统的用户。然而建立生态是十分困难的，Rikka作为一个独立开发者很难推动用户和开发者两边的人都使用这个应用，项目在一段时间后停止维护，在Android 10上字体预览也不太正常。</p>
+<h2 id="Android中的使用">Android中的使用</h2>
+<p>接下来说说Android和这套字体的关系。细心的朋友可能会注意到，Noto Sans CJK还提供了等宽字体（monospace）的常规字重和粗体字重。</p>
+<p>在Android P之前，CJK字体和西文字体并不是「对等关系」。西文有非衬线体、衬线体、condensed（抱歉，我真不知道它的中文是什么）和等宽字体，这些不同类型的字体遇到中文后，只能统一转到CJK的「非衬线体」（中文里对应的是黑体）。<br>
+Android P则加入了fallbackFor这个属性，Google用来支持CJK的「衬线体」（中文里对应的是宋体）。其实也就同时开放了CJK字体对condensed和等宽字体的支持。</p>
+<p>在Android P以前，Android调用不同字重的字体靠的是fontFamily属性，比如我想调用非衬线体的medium字重的话，我需要指定fontFamily为sans-serif-medium。对我的文章有比较深入了解的朋友就会好奇了，我们在fonts.xml中，指定字重写的是一个个数值，根本没有见到字重的名字啊？</p>
+<p>其实fonts.xml里用了一个alias（别名）标签，给这些数值取名，然后开发者才能正确调用这些字重。Noto Sans CJK总共7种字重，相较于Roboto，多一个demi-light（350）字重。而Noto Serif CJK也有7种字重，Noto Serif则仅有可怜的regular和bold字重，多了足足5种。这也就意味着系统里本身是不会自带sans-serif-demi-light这类标签的，这导致了这类字重处在一个很尴尬的位置——<br>
+没有办法被调用。Android P则给开发者引入了一个新的textFontWeight属性，允许开发者设定具体数值。</p>
+<p>这里讲一个小插曲，中文注音符号的字体从<br>
+<a target="_blank" rel="noopener" href="https://android.googlesource.com/platform/frameworks/base/+/refs/heads/nougat-dev/data/fonts/fonts.xml#340">7.0预览版</a>开始就一直处于TODO状态。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- <span class="doctag">TODO:</span> Add Bopo --&gt;</span></span><br></pre></td></tr></table></figure>
+<p>但是直到<br>
+<a target="_blank" rel="noopener" href="https://android.googlesource.com/platform/frameworks/base/+/refs/tags/android-9.0.0_r56/data/fonts/fonts.xml#527">9.0</a><br>
+Google才正式把这个坑填上</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">family</span> <span class="attr">lang</span>=<span class="string">&quot;zh-Hant zh-Bopo&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>然后在<br>
+<a target="_blank" rel="noopener" href="https://android.googlesource.com/platform/frameworks/base/+/refs/tags/android-10.0.0_r36/data/fonts/fonts.xml#552">10.0</a><br>
+里又改了一次，加了个逗号进去</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">family</span> <span class="attr">lang</span>=<span class="string">&quot;zh-Hant,zh-Bopo&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="孪生兄弟：思源字体">孪生兄弟：思源字体</h2>
+<p>再讲讲Noto CJK和它的孪生兄弟思源字体。Noto和思源本质上是同一套字体，不过他们之间又有一些细微的差别。首先是字重，各位看下面这张表就可以了，我怕绕晕大家。</p>
+<p><img src="https://i.loli.net/2020/05/31/KENmsWrp5nJGjVb.jpg" alt="font-weight-between-the-source-han-and-noto.jpg"></p>
+<p>其次是字形，Noto CJK分为简体中文、繁体中文、日语和韩语。而思源黑体则分为简体中文、繁体中文、香港、日语和韩语。这时可能马上就会跳出一个人说，香港出现在这里十分突兀啊！</p>
+<p>这是因为两者的繁体中文都是基于台湾标准的，所以和香港标准的多少有所不同。不过如果你在<br>
+<a target="_blank" rel="noopener" href="https://github.com/adobe-fonts/source-han-super-otc">Adobe的ultra OTC项目</a>里下载的话，就会得到一份Noto CJK HK，这说明Noto也是可以打包出香港版本的。遗憾的是，Android的字体仍不能做到这么精确设定，期待Android后续的改进了。</p>
+<p>最后，仍要感谢<a target="_blank" rel="noopener" href="https://twitter.com/tsopn">Toby Tso</a>老师写了很多关于这方面的文章，除了查阅AOSP源代码，很多关键部分少不了他的支持。顺便宣传一下<a target="_blank" rel="noopener" href="https://github.com/WordlessEcho/Noto-Super-OTC-Installer">我做的super otc的模块</a>。感谢阅读！</p>
+<h2 id="参考资料">参考资料</h2>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://medium.com/ujam/the-relation-between-source-han-sans-and-noto-sans-cjk-11a6309f06da">Source Han Sans 與 Noto Sans CJK 之字重對應</a></li>
+<li><a target="_blank" rel="noopener" href="https://fonts.google.com/specimen/Noto+Serif+SC">Noto Serif SC - Google Fonts</a></li>
+<li><a target="_blank" rel="noopener" href="https://fonts.adobe.com/fonts/source-han-sans-simplified-chinese#details-section">Source Han Sans Simplified Chinese | Adobe Fonts</a></li>
+<li><a target="_blank" rel="noopener" href="https://fonts.adobe.com/fonts/source-han-serif-simplified-chinese#details-section">Source Han Serif Simplified Chinese | Adobe Fonts</a></li>
+</ol>
+
+    </div>
+    <div class="post-meta">
+        
+    <span class="post-time">2020/05/31</span>
+    </div>
+</article>
+
+<div class="prev_next">
+    <nav id="prev_next">
+
+<div class="prev">
+    
+    <p>上一篇</p>
+    <a href="/atri/"><div class="article-nav-title">重重掩盖下的真心——《Atri -My Dear Moments-》</div></a>
+    
+</div>
+<div class="next">
+    
+    <p>下一篇</p>
+    <a href="/6k-tiny-pc/"><div class="article-nav-title">装台一身甜品的小机箱</div></a>
+    
+</div>
+
+</nav>
+</div>
+
+<div class="post-comment">
+    
+
+
+
+</div>
+
+    </main>
+    <p class="license">本站文章使用 CC BY-SA 4.0 许可。</p>
+</body>
+
+</html>

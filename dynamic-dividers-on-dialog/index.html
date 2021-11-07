@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    
+    <title>Dynamic Display Dividers on Scrollable Dialog of Material UI - 回音的博客</title>
+    <meta charset="utf-8">
+    
+    <meta name="title" content="Dynamic Display Dividers on Scrollable Dialog of Material UI - 回音的博客">
+    <meta name="description" content="">
+    <meta property="og:image" content="/favicon.png">
+    <meta property="og:image:width" content="200" />
+    <meta property="og:image:height" content="200" />
+    
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Source Serif Pro', 'Source Han Serif SC', 'Noto Serif CJK SC', 'Noto Serif SC', serif
+        }
+    </style>
+    <link rel="shortcut icon" href="/favicon.png">
+    
+    <link rel="stylesheet"
+        href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/styles/arduino-light.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<script src="/js/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="回音的博客" type="application/atom+xml">
+</head>
+
+
+<body>
+    <header class="header">
+    <div class="blog-title">
+        <a href="/" class="logo">回音的博客</a>
+    </div>
+    <nav class="navbar">
+        <ul class="menu">
+            
+            
+            
+            <li class="menu-item">
+                
+                <a href="/" class="menu-item-link">主页</a>
+                
+            </li>
+            
+            
+            
+            <li class="menu-item">
+                
+                <a href="/about" class="menu-item-link">关于</a>
+                
+            </li>
+            
+            
+            
+            <li class="menu-item">
+                
+                <a href="/atom.xml" class="menu-item-link">订阅</a>
+                
+            </li>
+            
+        </ul>
+    </nav>
+</header>
+    <main class="main">
+        <article class="post">
+    <div class="post-title">
+        <h1 class="title">Dynamic Display Dividers on Scrollable Dialog of Material UI</h2>
+    </div>
+    <div class="post-content">
+        <p>Hide top divider while scrolling to the top, hide bottom divider while scrolling to the end.</p>
+<h2 id="more"><span id="more"></span></h2>
+<p>首发于<a target="_blank" rel="noopener" href="https://github.com/mui-org/material-ui/issues/3155#issuecomment-863226215">[Dialog] Add Divider to Dialog · Issue #3155 · mui-org/material-ui · GitHub</a>，故用英文行文。</p>
+<h3 id="Example">Example</h3>
+<p>Here is an example on <a target="_blank" rel="noopener" href="https://codesandbox.io/s/dialog-with-dynamic-dividers-j1ucw">CodeSandbox</a>.</p>
+<p><img src="https://user-images.githubusercontent.com/12007025/122402749-5c05a680-cfb0-11eb-8f16-1cfb910c44ed.gif" alt="dialog-example"></p>
+<h3 id="Details">Details</h3>
+<p>Create two variables to control dividers.</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> [topDivider, setTopDivider] = useState(<span class="literal">false</span>);</span><br><span class="line"><span class="keyword">const</span> [bottomDivider, setBottomDivider] = useState(<span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
+<p>Create a function to initilize status of dividers. Because <code>Dialog</code> have its own “lifecycle”. (You will see the explanation below)</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> initializeDividers = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  setTopDivider(<span class="literal">false</span>);</span><br><span class="line">  setBottomDivider(<span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* ... */</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>Detect if scrollbar exist by comparing <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/Element/scrollHeight"><code>scrollHeight</code></a> with <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/API/Element/clientHeight"><code>clientHeight</code></a>.<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup></p>
+<p>The id in <code>getElementById</code> is for <code>DialogContent</code>.</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> initializeDividers = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">/* ... */</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> dialogContent = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;dialog-content&#x27;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (dialogContent !== <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (dialogContent.scrollHeight &gt; dialogContent.clientHeight) &#123;</span><br><span class="line">      setBottomDivider(<span class="literal">true</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>Adding <code>initializeDividers</code> to <code>Dialog</code> in <a target="_blank" rel="noopener" href="https://material-ui.com/api/dialog/#props"><code>onEnter</code></a>. Because display of <code>Dialog</code> is control by <code>open</code>. (Now you know why we don’t use Effect Hook) You will get <code>null</code> if you are using React Effect Hook to get element.</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;Dialog</span><br><span class="line">  open=&#123;<span class="comment">/* variable from caller */</span>&#125;</span><br><span class="line">  onEnter=&#123;initializeDividers&#125;</span><br><span class="line">  scroll=<span class="string">&quot;paper&quot;</span></span><br><span class="line">&gt;</span><br><span class="line"></span><br><span class="line">&#123;<span class="comment">/* ... */</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>Add <code>Divider</code>s before &amp; after <code>DialogContent</code> with its variable from State Hook. And don’t forget to set a id for <code>DialogContent</code>.</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;topDivider ? <span class="xml"><span class="tag">&lt;<span class="name">Divider</span> /&gt;</span></span> : <span class="literal">null</span>&#125;</span><br><span class="line">&lt;DialogContent id=<span class="string">&quot;dialog-content&quot;</span>&gt;</span><br><span class="line">  &#123;<span class="comment">/* ... */</span>&#125;</span><br><span class="line">&lt;/DialogContent&gt;</span><br><span class="line">&#123;bottomDivider ? <span class="xml"><span class="tag">&lt;<span class="name">Divider</span> /&gt;</span></span> : <span class="literal">null</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>Now let’s handle the scrolling.</p>
+<p>You need to listen the <code>onScroll</code> event in <code>DialogContent</code>.</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> handleScrolling = <span class="function">(<span class="params">e: React.UIEvent&lt;HTMLDivElement&gt;</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">/* ... */</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* ... */</span></span><br><span class="line"></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">DialogContent</span> <span class="attr">id</span>=<span class="string">&quot;dialog-content&quot;</span> <span class="attr">onScroll</span>=<span class="string">&#123;handleScrolling&#125;</span>&gt;</span></span></span><br><span class="line"><span class="xml">  &#123;/* ... */&#125;</span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">DialogContent</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<p>Assert the type of <code>event.target</code> to <code>HTMLDivElement</code>.<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup> <sup class="footnote-ref"><a href="#fn3" id="fnref3">[3]</a></sup></p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> handleScrolling = <span class="function">(<span class="params">e: React.UIEvent&lt;HTMLDivElement&gt;</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> target = e.target <span class="keyword">as</span> HTMLDivElement;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* ... */</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>Compare the <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/Element/scrollTop"><code>scrollTop</code></a> with the difference between <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/Element/scrollHeight"><code>scrollHeight</code></a> and <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/Element/scrollHeight"><code>scrollHeight</code></a>.<sup class="footnote-ref"><a href="#fn4" id="fnref4">[4]</a></sup> <sup class="footnote-ref"><a href="#fn5" id="fnref5">[5]</a></sup></p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> handleScrolling = <span class="function">(<span class="params">e: React.UIEvent&lt;HTMLDivElement&gt;</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">/* ... */</span></span><br><span class="line"></span><br><span class="line">  setTopDivider(target.scrollTop !== <span class="number">0</span>);</span><br><span class="line">  setBottomDivider(target.scrollTop !== target.scrollHeight - target.offsetHeight);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="Credits-Reference">Credits &amp; Reference</h3>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p><a target="_blank" rel="noopener" href="https://www.geeksforgeeks.org/check-whether-html-element-has-scrollbars-using-javascript/">Check whether HTML element has scrollbars using JavaScript - GeeksforGeeks</a> <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/a/42066698">angular - Property ‘value’ does not exist on type ‘EventTarget’ - Stack Overflow</a> <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn3" class="footnote-item"><p><a target="_blank" rel="noopener" href="https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#type-assertions">TypeScript: Documentation - Everyday Types</a> <a href="#fnref3" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn4" class="footnote-item"><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/a/55262502">reactjs - is this possible to get scroll position in material-ui select list on Scroll? - Stack Overflow</a> <a href="#fnref4" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn5" class="footnote-item"><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/a/2481370">browser - How to get scrollbar position with Javascript? - Stack Overflow</a> <a href="#fnref5" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+
+    </div>
+    <div class="post-meta">
+        
+    <span class="post-time">2021/06/22</span>
+    </div>
+</article>
+
+<div class="prev_next">
+    <nav id="prev_next">
+
+<div class="prev">
+    
+    <p>上一篇</p>
+    <a href="/privacy-policy-of-variable-font-test/"><div class="article-nav-title">Privacy Policy of Variable Font Test</div></a>
+    
+</div>
+<div class="next">
+    
+    <p>下一篇</p>
+    <a href="/simply-implement-orm-by-using-reflection-in-c-sharp/"><div class="article-nav-title">在C#中用反射简易实现ORM</div></a>
+    
+</div>
+
+</nav>
+</div>
+
+<div class="post-comment">
+    
+
+
+
+</div>
+
+    </main>
+    <p class="license">本站文章使用 CC BY-SA 4.0 许可。</p>
+</body>
+
+</html>

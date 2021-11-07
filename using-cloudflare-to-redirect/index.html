@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    
+    <title>用CloudFlare重定向域名 - 回音的博客</title>
+    <meta charset="utf-8">
+    
+    <meta name="title" content="用CloudFlare重定向域名 - 回音的博客">
+    <meta name="description" content="">
+    <meta property="og:image" content="/favicon.png">
+    <meta property="og:image:width" content="200" />
+    <meta property="og:image:height" content="200" />
+    
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Source Serif Pro', 'Source Han Serif SC', 'Noto Serif CJK SC', 'Noto Serif SC', serif
+        }
+    </style>
+    <link rel="shortcut icon" href="/favicon.png">
+    
+    <link rel="stylesheet"
+        href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/styles/arduino-light.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<script src="/js/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="回音的博客" type="application/atom+xml">
+</head>
+
+
+<body>
+    <header class="header">
+    <div class="blog-title">
+        <a href="/" class="logo">回音的博客</a>
+    </div>
+    <nav class="navbar">
+        <ul class="menu">
+            
+            
+            
+            <li class="menu-item">
+                
+                <a href="/" class="menu-item-link">主页</a>
+                
+            </li>
+            
+            
+            
+            <li class="menu-item">
+                
+                <a href="/about" class="menu-item-link">关于</a>
+                
+            </li>
+            
+            
+            
+            <li class="menu-item">
+                
+                <a href="/atom.xml" class="menu-item-link">订阅</a>
+                
+            </li>
+            
+        </ul>
+    </nav>
+</header>
+    <main class="main">
+        <article class="post">
+    <div class="post-title">
+        <h1 class="title">用CloudFlare重定向域名</h2>
+    </div>
+    <div class="post-content">
+        <p>拥有多个域名后的烦恼。</p>
+<h2 id="more"><span id="more"></span></h2>
+<h1>需求</h1>
+<p>我有一个用我真名命名的域名，姑且称为<code>xiaoming.com</code>。有一个圈名命名的域名，姑且称为<code>example.com</code>。</p>
+<ul>
+<li>将<code>xiaoming.com/</code>和<code>www.xiaoming.com/</code>的请求301重定向到<code>example.com/about</code></li>
+<li>向下兼容以前在<code>xiaoming.com</code>下创建过的文章链接</li>
+<li>将<code>www.example.com</code>的请求全部重定向到<code>example.com</code></li>
+</ul>
+<h1>配置</h1>
+<h2 id="页面规则（Page-Rules）">页面规则（Page Rules）</h2>
+<p>CloudFlare 有一个强大的功能，叫做 Page Rules，它可以实现链接匹配并进行一些特殊操作，例如：始终使用 HTTPS、始终在线（always online）和链接跳转等功能。免费版下，每个域名有三条规则的上限，不过对于现有需求来说也够用了。</p>
+<p>首先打开 CloudFlare 面板 &gt; <a target="_blank" rel="noopener" href="http://xiaoming.com">xiaoming.com</a> &gt; Page Rules 来创建两条规则：</p>
+<ul>
+<li>If: <code>*xiaoming.com/</code>, then: <code>https://example.com/about</code></li>
+<li>If: <code>*xiaoming.com/*</code>, then: <code>https://example.com/$2</code></li>
+</ul>
+<blockquote>
+<p>因为规则是顺位匹配的，所以在添加规则时，一定要注意规则的排序。</p>
+</blockquote>
+<p>同样，打开 <a target="_blank" rel="noopener" href="http://example.com">example.com</a> 的 Page Rules：</p>
+<ul>
+<li>If: <code>*example.com/*</code>, then: <code>https://example.com/$2</code></li>
+</ul>
+<p>上述几条规则对于有编程经验的人来说应该不难理解，这里稍微做一些说明：</p>
+<ul>
+<li>
+<p><code>*</code>即通配符，在此位置上的任意字符都会被判定为符合规则。比如<code>blog.example.com</code>、<code>www.example.com</code>和<code>example.com/foobar</code>都会匹配到<code>*example.com/*</code>这条规则，而<code>example.com/foobar</code>和<code>www.example.com/foobar</code>就不会匹配到<code>*example.com/</code>这条规则。</p>
+</li>
+<li>
+<p><code>$</code>类似于参数，<code>$1</code>代表着if中第一个<code>*</code>里的字段，以此类推，<code>$2</code>就是第二个<code>*</code>中的字段。例如<code>https://example.com/foobar</code>在上述<code>example.com</code>的规则一里，<code>$1</code>就是「https://」，<code>$2</code>就是「foobar」。</p>
+</li>
+</ul>
+<h1>DNS 解析记录</h1>
+<p>一开始在这里百思不得其解，没有解析记录的域名当然是无法被解析的，访问时找不到IP，当然没法跳转。</p>
+<p>所以我们需要新建<code>www.xiaoming.com</code>、<code>xiaoming.com</code>和<code>www.example.com</code>这三条解析记录，在这里我将解析类型设为 CNAME，值设为了<code>example.com</code>，而CDN保持默认开启状态，否则可能会出现证书问题。至此，我们设定的<code>Page Rules</code>就生效了。</p>
+<h1>参考</h1>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://support.cloudflare.com/hc/en-us/articles/200172286-How-do-I-perform-URL-forwarding-or-redirects-with-Cloudflare">How do I perform URL forwarding or redirects with Cloudflare?</a></li>
+<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-cn/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F">正则表达式 - 维基百科，自由的百科全书</a></li>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/5163144/what-are-the-special-dollar-sign-shell-variables">What are the special dollar sign shell variables? - Stack Overflow</a></li>
+<li><a target="_blank" rel="noopener" href="https://community.cloudflare.com/t/redirecting-www-to-non-www/2949/24">Redirecting www to non www - Getting Started - CloudFlare Community</a></li>
+</ul>
+
+    </div>
+    <div class="post-meta">
+        
+    <span class="post-time">2018/12/22</span>
+    </div>
+</article>
+
+<div class="prev_next">
+    <nav id="prev_next">
+
+<div class="prev">
+    
+    <p>上一篇</p>
+    <a href="/install-any-app-on-cmcc-iptv-unt401h/"><div class="article-nav-title">在移动魔百盒（UNT401H）上安装任意应用</div></a>
+    
+</div>
+<div class="next">
+    
+    <p>下一篇</p>
+    <a href="/hello-world/"><div class="article-nav-title">Hello World</div></a>
+    
+</div>
+
+</nav>
+</div>
+
+<div class="post-comment">
+    
+
+
+
+</div>
+
+    </main>
+    <p class="license">本站文章使用 CC BY-SA 4.0 许可。</p>
+</body>
+
+</html>

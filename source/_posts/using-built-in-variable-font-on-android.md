@@ -113,6 +113,6 @@ Unfortunately, Android doesn't include variable Noto CJK yet. There is a [issue]
 # My app
 I wrote a app that use Android API to set variation. And it allows user to import own fonts to try.
 
-![App Preview en](doc/pics/variable-font-test-en.gif)
+![App Preview en](https://github.com/WordlessEcho/Variable-Font-Test/raw/main/doc/pics/variable-font-test-en.gif)
 
 [WordlessEcho/Variable-Font-Test: A simple app to test variable font in system.](https://github.com/WordlessEcho/Variable-Font-Test)

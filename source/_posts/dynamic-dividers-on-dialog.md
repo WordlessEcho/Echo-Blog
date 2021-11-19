@@ -53,12 +53,14 @@ const initializeDividers = () => {
 };
 ```
 
-Adding `initializeDividers` to `Dialog` in [`onEnter`](https://material-ui.com/api/dialog/#props). Because display of `Dialog` is control by `open`. (Now you know why we don't use Effect Hook) You will get `null` if you are using React Effect Hook to get element.
+Adding `initializeDividers` to `Dialog` in [`onEnter of TransitionProps`](https://mui.com/guides/migration-v4/#dialog). Because display of `Dialog` is control by `open`. (Now you know why we don't use Effect Hook) You will get `null` if you are using React Effect Hook to get element.
 
 ```jsx
 <Dialog
   open={/* variable from caller */}
-  onEnter={initializeDividers}
+  TransitionProps={{
+    onEnter: initializeDividers,
+  }}
   scroll="paper"
 >
 

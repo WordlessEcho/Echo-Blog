@@ -103,6 +103,15 @@ ignore:
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
 theme: Seje
+theme_config:
+  menu:
+    Home: /
+    About: /about
+    RSS: /atom.xml
+  excerpt: true
+  license: 本站文章使用 CC BY-SA 4.0 许可。
+  to_chinese_date: false
+
 feed:
   type: atom
   path: atom.xml

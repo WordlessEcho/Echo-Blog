@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    
+    <title>Android上使用OTC、可变字体、标点挤压和特别修改 - 回音的博客</title>
+    <meta charset="utf-8">
+    
+    <meta name="title" content="Android上使用OTC、可变字体、标点挤压和特别修改 - 回音的博客">
+    <meta name="description" content="">
+    <meta property="og:image" content="/favicon.png">
+    <meta property="og:image:width" content="200" />
+    <meta property="og:image:height" content="200" />
+    
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Source Serif Pro', 'Source Han Serif SC', 'Noto Serif CJK SC', 'Noto Serif SC', serif
+        }
+    </style>
+    <link rel="shortcut icon" href="/favicon.png">
+    
+    <link rel="stylesheet"
+        href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/styles/arduino-light.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<script src="/js/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="回音的博客" type="application/atom+xml">
+</head>
+
+
+<body>
+    <header class="header">
+    <div class="blog-title">
+        <a href="/" class="logo">回音的博客</a>
+    </div>
+    <nav class="navbar">
+        <ul class="menu">
+            
+            
+            
+            <li class="menu-item">
+                
+                <a href="/" class="menu-item-link">主页</a>
+                
+            </li>
+            
+            
+            
+            <li class="menu-item">
+                
+                <a href="/about" class="menu-item-link">关于</a>
+                
+            </li>
+            
+            
+            
+            <li class="menu-item">
+                
+                <a href="/atom.xml" class="menu-item-link">订阅</a>
+                
+            </li>
+            
+        </ul>
+    </nav>
+</header>
+    <main class="main">
+        <article class="post">
+    <div class="post-title">
+        <h1 class="title">Android上使用OTC、可变字体、标点挤压和特别修改</h2>
+    </div>
+    <div class="post-content">
+        <p>Android上使用字体使用OTC和可变字体时需要修改fonts.xml，而Noto CJK需要删除一些cmap条目。</p>
+<span id="more"></span>
+<h2 id="依赖">依赖</h2>
+<p>安装Python和<a target="_blank" rel="noopener" href="https://pypa.github.io/pipx/installation/">pipx</a>。</p>
+<h2 id="Android对Noto-CJK的修改">Android对Noto CJK的修改</h2>
+<p>详情可见此<a target="_blank" rel="noopener" href="https://android.googlesource.com/platform/external/noto-fonts/+/refs/heads/master/cjk/README.android">README.android</a>。</p>
+<p>安装<a target="_blank" rel="noopener" href="https://github.com/googlefonts/nototools">nototools</a>：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipx install notofonttools</span><br></pre></td></tr></table></figure>
+<p>从AOSP下载<a target="_blank" rel="noopener" href="https://android.googlesource.com/platform/external/noto-fonts/+/refs/heads/master/cjk/subset_noto_cjk.py">subset_noto_cjk.py</a>（<a target="_blank" rel="noopener" href="https://github.com/google/gitiles/issues/106#issuecomment-462030196">Download raw file · Issue #106 · google/gitiles</a>）：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl <span class="string">&quot;https://android.googlesource.com/platform/external/noto-fonts/+/refs/heads/master/cjk/subset_noto_cjk.py?format=TEXT&quot;</span> | base64 --decode &gt; subset_noto_cjk.py</span><br></pre></td></tr></table></figure>
+<p>将<code>subset_noto_cjk.py</code>中的这行：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TTC_NAMES = (<span class="string">&#x27;NotoSansCJK-Regular.ttc&#x27;</span>, <span class="string">&#x27;NotoSerifCJK-Regular.ttc&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>修改为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TTC_NAMES = (<span class="string">&#x27;NotoSansCJK-VF.otf.ttc&#x27;</span>, )</span><br></pre></td></tr></table></figure>
+<p><strong>注意，只有一个字体时，不要把末尾的逗号去掉。</strong></p>
+<p>执行：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># notofonttools虚拟环境</span></span><br><span class="line"><span class="built_in">source</span> ~/.<span class="built_in">local</span>/pipx/venvs/notofonttools/bin/activate</span><br><span class="line">python3 ./subset_noto_cjk.py</span><br><span class="line"><span class="comment"># 退出虚拟环境</span></span><br><span class="line">deactivate</span><br></pre></td></tr></table></figure>
+<p>这个脚本会去掉一些cmap，避免<a target="_blank" rel="noopener" href="https://github.com/simonsmh/notocjk/issues/21">Emoji显示的问题</a>。输出的字体在当前文件夹的subsetted文件夹下。</p>
+<h2 id="标点挤压（Contextual-Spacing）">标点挤压（Contextual Spacing）</h2>
+<p>详情可见此<a target="_blank" rel="noopener" href="https://android.googlesource.com/platform/external/noto-fonts/+/refs/heads/master/cjk/README.android">README.android</a>，但早期版本的Android实际上并没有使用过这个工具。</p>
+<p>安装<a target="_blank" rel="noopener" href="https://github.com/kojiishi/east_asian_spacing">East Asian Contextual Spacing</a>：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipx install east-asian-spacing</span><br></pre></td></tr></table></figure>
+<p>执行：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">east-asian-spacing -o build subsetted/NotoSansCJK-VF.otf.ttc</span><br></pre></td></tr></table></figure>
+<p><code>-o build</code>参数代表字体输出在当前文件夹的build文件夹下。</p>
+<h2 id="OTC-Index">OTC Index</h2>
+<p>安装<a target="_blank" rel="noopener" href="https://github.com/adobe-type-tools/afdko">afdko</a>：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipx install afdko</span><br></pre></td></tr></table></figure>
+<p>然后执行：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">otc2otf -r NotoSansCJK-VF.otf.ttc | grep Font</span><br><span class="line"></span><br><span class="line">Font 0: NotoSansCJKjp-Thin.otf</span><br><span class="line">Font 1: NotoSansCJKkr-Thin.otf</span><br><span class="line">Font 2: NotoSansCJKsc-Thin.otf</span><br><span class="line">Font 3: NotoSansCJKtc-Thin.otf</span><br><span class="line">Font 4: NotoSansCJKhk-Thin.otf</span><br></pre></td></tr></table></figure>
+<p>这里的数字与TTC index一一对应，如简体中文为2，fonts.xml中zh-Hans的index就为2：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">family</span> <span class="attr">lang</span>=<span class="string">&quot;zh-Hans&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">font</span> <span class="attr">weight</span>=<span class="string">&quot;100&quot;</span> <span class="attr">style</span>=<span class="string">&quot;normal&quot;</span> <span class="attr">index</span>=<span class="string">&quot;2&quot;</span> <span class="attr">postScriptName</span>=<span class="string">&quot;NotoSansCJKjp-Thin&quot;</span>&gt;</span>NotoSansCJK-VF.otf.ttc</span><br><span class="line">    <span class="comment">&lt;!-- ... --&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="可变字体">可变字体</h2>
+<p>安装<a target="_blank" rel="noopener" href="https://github.com/fonttools/fonttools">fonttools</a>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipx install fonttools</span><br></pre></td></tr></table></figure>
+<p>执行：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -y 代表OTC index</span></span><br><span class="line">ttx -y 2 -t fvar NotoSansCJK-VF.otf.ttc</span><br></pre></td></tr></table></figure>
+<p>输出内容：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">cat NotoSansCJK-VF.otf.ttx</span><br><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">ttFont</span> <span class="attr">sfntVersion</span>=<span class="string">&quot;OTTO&quot;</span> <span class="attr">ttLibVersion</span>=<span class="string">&quot;4.28&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">fvar</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- Weight --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Axis</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">AxisTag</span>&gt;</span>wght<span class="tag">&lt;/<span class="name">AxisTag</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">Flags</span>&gt;</span>0x0<span class="tag">&lt;/<span class="name">Flags</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">MinValue</span>&gt;</span>100.0<span class="tag">&lt;/<span class="name">MinValue</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">DefaultValue</span>&gt;</span>100.0<span class="tag">&lt;/<span class="name">DefaultValue</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">MaxValue</span>&gt;</span>900.0<span class="tag">&lt;/<span class="name">MaxValue</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">AxisNameID</span>&gt;</span>265<span class="tag">&lt;/<span class="name">AxisNameID</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">Axis</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- Thin --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- PostScript: NotoSansCJKsc-Thin --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">NamedInstance</span> <span class="attr">flags</span>=<span class="string">&quot;0x0&quot;</span> <span class="attr">postscriptNameID</span>=<span class="string">&quot;267&quot;</span> <span class="attr">subfamilyNameID</span>=<span class="string">&quot;266&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">coord</span> <span class="attr">axis</span>=<span class="string">&quot;wght&quot;</span> <span class="attr">value</span>=<span class="string">&quot;100.0&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">NamedInstance</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- Light --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- PostScript: NotoSansCJKsc-Light --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">NamedInstance</span> <span class="attr">flags</span>=<span class="string">&quot;0x0&quot;</span> <span class="attr">postscriptNameID</span>=<span class="string">&quot;269&quot;</span> <span class="attr">subfamilyNameID</span>=<span class="string">&quot;268&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">coord</span> <span class="attr">axis</span>=<span class="string">&quot;wght&quot;</span> <span class="attr">value</span>=<span class="string">&quot;300.0&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">NamedInstance</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- DemiLight --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- PostScript: NotoSansCJKsc-DemiLight --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">NamedInstance</span> <span class="attr">flags</span>=<span class="string">&quot;0x0&quot;</span> <span class="attr">postscriptNameID</span>=<span class="string">&quot;271&quot;</span> <span class="attr">subfamilyNameID</span>=<span class="string">&quot;270&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">coord</span> <span class="attr">axis</span>=<span class="string">&quot;wght&quot;</span> <span class="attr">value</span>=<span class="string">&quot;350.0&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">NamedInstance</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- Regular --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- PostScript: NotoSansCJKsc-Regular --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">NamedInstance</span> <span class="attr">flags</span>=<span class="string">&quot;0x0&quot;</span> <span class="attr">postscriptNameID</span>=<span class="string">&quot;273&quot;</span> <span class="attr">subfamilyNameID</span>=<span class="string">&quot;272&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">coord</span> <span class="attr">axis</span>=<span class="string">&quot;wght&quot;</span> <span class="attr">value</span>=<span class="string">&quot;400.0&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">NamedInstance</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- Medium --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- PostScript: NotoSansCJKsc-Medium --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">NamedInstance</span> <span class="attr">flags</span>=<span class="string">&quot;0x0&quot;</span> <span class="attr">postscriptNameID</span>=<span class="string">&quot;275&quot;</span> <span class="attr">subfamilyNameID</span>=<span class="string">&quot;274&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">coord</span> <span class="attr">axis</span>=<span class="string">&quot;wght&quot;</span> <span class="attr">value</span>=<span class="string">&quot;500.0&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">NamedInstance</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- Bold --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- PostScript: NotoSansCJKsc-Bold --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">NamedInstance</span> <span class="attr">flags</span>=<span class="string">&quot;0x0&quot;</span> <span class="attr">postscriptNameID</span>=<span class="string">&quot;277&quot;</span> <span class="attr">subfamilyNameID</span>=<span class="string">&quot;276&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">coord</span> <span class="attr">axis</span>=<span class="string">&quot;wght&quot;</span> <span class="attr">value</span>=<span class="string">&quot;700.0&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">NamedInstance</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- Black --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- PostScript: NotoSansCJKsc-Black --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">NamedInstance</span> <span class="attr">flags</span>=<span class="string">&quot;0x0&quot;</span> <span class="attr">postscriptNameID</span>=<span class="string">&quot;279&quot;</span> <span class="attr">subfamilyNameID</span>=<span class="string">&quot;278&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">coord</span> <span class="attr">axis</span>=<span class="string">&quot;wght&quot;</span> <span class="attr">value</span>=<span class="string">&quot;900.0&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">NamedInstance</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">fvar</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">ttFont</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>找出Noto Sans CJK各字重的weight值：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"># afdko，见上文OTC index</span><br><span class="line">otc2otf -r NotoSansCJK.ttc | grep jp</span><br><span class="line">Font 0: NotoSansCJKjp-Thin.otf</span><br><span class="line">Font 5: NotoSansCJKjp-Light.otf</span><br><span class="line">Font 10: NotoSansCJKjp-DemiLight.otf</span><br><span class="line">Font 15: NotoSansCJKjp-Medium.otf</span><br><span class="line">Font 20: NotoSansCJKjp-Black.otf</span><br><span class="line">Font 25: NotoSansCJKjp-Regular.otf</span><br><span class="line">Font 30: NotoSansMonoCJKjp-Regular.otf</span><br><span class="line">Font 35: NotoSansCJKjp-Bold.otf</span><br><span class="line">Font 40: NotoSansMonoCJKjp-Bold.otf</span><br><span class="line"></span><br><span class="line">ttx -y 0 -t OS/2 NotoSansCJK.ttc</span><br><span class="line"><span class="tag">&lt;<span class="name">usWeightClass</span> <span class="attr">value</span>=<span class="string">&quot;100&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">ttx -y 5 -t OS/2 NotoSansCJK.ttc</span><br><span class="line"><span class="tag">&lt;<span class="name">usWeightClass</span> <span class="attr">value</span>=<span class="string">&quot;300&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">ttx -y 10 -t OS/2 NotoSansCJK.ttc</span><br><span class="line"><span class="tag">&lt;<span class="name">usWeightClass</span> <span class="attr">value</span>=<span class="string">&quot;350&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">ttx -y 25 -t OS/2 NotoSansCJK.ttc</span><br><span class="line"><span class="tag">&lt;<span class="name">usWeightClass</span> <span class="attr">value</span>=<span class="string">&quot;400&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">ttx -y 15 -t OS/2 NotoSansCJK.ttc</span><br><span class="line"><span class="tag">&lt;<span class="name">usWeightClass</span> <span class="attr">value</span>=<span class="string">&quot;500&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">ttx -y 35 -t OS/2 NotoSansCJK.ttc</span><br><span class="line"><span class="tag">&lt;<span class="name">usWeightClass</span> <span class="attr">value</span>=<span class="string">&quot;700&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">ttx -y 20 -t OS/2 NotoSansCJK.ttc</span><br><span class="line"><span class="tag">&lt;<span class="name">usWeightClass</span> <span class="attr">value</span>=<span class="string">&quot;900&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">family</span> <span class="attr">lang</span>=<span class="string">&quot;zh-Hans&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">font</span> <span class="attr">weight</span>=<span class="string">&quot;100&quot;</span> <span class="attr">style</span>=<span class="string">&quot;normal&quot;</span> <span class="attr">index</span>=<span class="string">&quot;2&quot;</span> <span class="attr">postScriptName</span>=<span class="string">&quot;NotoSansCJKjp-Thin&quot;</span>&gt;</span>NotoSansCJK-VF.otf.ttc</span><br><span class="line">        <span class="tag">&lt;<span class="name">axis</span> <span class="attr">tag</span>=<span class="string">&quot;wght&quot;</span> <span class="attr">stylevalue</span>=<span class="string">&quot;100.0&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">font</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">font</span> <span class="attr">weight</span>=<span class="string">&quot;300&quot;</span> <span class="attr">style</span>=<span class="string">&quot;normal&quot;</span> <span class="attr">index</span>=<span class="string">&quot;2&quot;</span> <span class="attr">postScriptName</span>=<span class="string">&quot;NotoSansCJKjp-Thin&quot;</span>&gt;</span>NotoSansCJK-VF.otf.ttc</span><br><span class="line">        <span class="tag">&lt;<span class="name">axis</span> <span class="attr">tag</span>=<span class="string">&quot;wght&quot;</span> <span class="attr">stylevalue</span>=<span class="string">&quot;300.0&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">font</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">font</span> <span class="attr">weight</span>=<span class="string">&quot;350&quot;</span> <span class="attr">style</span>=<span class="string">&quot;normal&quot;</span> <span class="attr">index</span>=<span class="string">&quot;2&quot;</span> <span class="attr">postScriptName</span>=<span class="string">&quot;NotoSansCJKjp-Thin&quot;</span>&gt;</span>NotoSansCJK-VF.otf.ttc</span><br><span class="line">        <span class="tag">&lt;<span class="name">axis</span> <span class="attr">tag</span>=<span class="string">&quot;wght&quot;</span> <span class="attr">stylevalue</span>=<span class="string">&quot;350.0&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">font</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">font</span> <span class="attr">weight</span>=<span class="string">&quot;400&quot;</span> <span class="attr">style</span>=<span class="string">&quot;normal&quot;</span> <span class="attr">index</span>=<span class="string">&quot;2&quot;</span> <span class="attr">postScriptName</span>=<span class="string">&quot;NotoSansCJKjp-Thin&quot;</span>&gt;</span>NotoSansCJK-VF.otf.ttc</span><br><span class="line">        <span class="tag">&lt;<span class="name">axis</span> <span class="attr">tag</span>=<span class="string">&quot;wght&quot;</span> <span class="attr">stylevalue</span>=<span class="string">&quot;400.0&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">font</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">font</span> <span class="attr">weight</span>=<span class="string">&quot;500&quot;</span> <span class="attr">style</span>=<span class="string">&quot;normal&quot;</span> <span class="attr">index</span>=<span class="string">&quot;2&quot;</span> <span class="attr">postScriptName</span>=<span class="string">&quot;NotoSansCJKjp-Thin&quot;</span>&gt;</span>NotoSansCJK-VF.otf.ttc</span><br><span class="line">        <span class="tag">&lt;<span class="name">axis</span> <span class="attr">tag</span>=<span class="string">&quot;wght&quot;</span> <span class="attr">stylevalue</span>=<span class="string">&quot;500.0&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">font</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">font</span> <span class="attr">weight</span>=<span class="string">&quot;700&quot;</span> <span class="attr">style</span>=<span class="string">&quot;normal&quot;</span> <span class="attr">index</span>=<span class="string">&quot;2&quot;</span> <span class="attr">postScriptName</span>=<span class="string">&quot;NotoSansCJKjp-Thin&quot;</span>&gt;</span>NotoSansCJK-VF.otf.ttc</span><br><span class="line">        <span class="tag">&lt;<span class="name">axis</span> <span class="attr">tag</span>=<span class="string">&quot;wght&quot;</span> <span class="attr">stylevalue</span>=<span class="string">&quot;700.0&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">font</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">font</span> <span class="attr">weight</span>=<span class="string">&quot;900&quot;</span> <span class="attr">style</span>=<span class="string">&quot;normal&quot;</span> <span class="attr">index</span>=<span class="string">&quot;2&quot;</span> <span class="attr">postScriptName</span>=<span class="string">&quot;NotoSansCJKjp-Thin&quot;</span>&gt;</span>NotoSansCJK-VF.otf.ttc</span><br><span class="line">        <span class="tag">&lt;<span class="name">axis</span> <span class="attr">tag</span>=<span class="string">&quot;wght&quot;</span> <span class="attr">stylevalue</span>=<span class="string">&quot;900.0&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">font</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- ... --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">family</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>我记录下来的<a target="_blank" rel="noopener" href="https://github.com/WordlessEcho/Noto-Super-OTC-Magisk#sans-serif">Noto Sans CJK和Noto Serif CJK字重数值表</a></p>
+<h2 id="测试">测试</h2>
+<p>此处安利本人写的<a target="_blank" rel="noopener" href="https://github.com/WordlessEcho/Variable-Font-Test">可变字体测试</a>。<br>
+<img src="https://github.com/WordlessEcho/Variable-Font-Test/raw/main/doc/pics/variable-font-test-zh-tw.gif" alt="variable-font-test-zh-tw"></p>
+
+    </div>
+    <div class="post-meta">
+        
+    <span class="post-time">2021/12/27</span>
+    </div>
+</article>
+
+<div class="prev_next">
+    <nav id="prev_next">
+
+<div class="prev">
+    
+</div>
+<div class="next">
+    
+    <p>下一篇</p>
+    <a href="/using-built-in-variable-font-on-android/"><div class="article-nav-title">Using Built-in Variable Font on Android</div></a>
+    
+</div>
+
+</nav>
+</div>
+
+<div class="post-comment">
+    
+
+
+
+</div>
+
+    </main>
+    <p class="license"></p>
+</body>
+
+</html>

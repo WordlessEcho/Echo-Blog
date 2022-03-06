@@ -34,7 +34,7 @@
     
 <script src="/js/jquery.min.js"></script>
 
-<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="回音的博客" type="application/atom+xml">
+<meta name="generator" content="Hexo 5.4.1"><link rel="alternate" href="/atom.xml" title="回音的博客" type="application/atom+xml">
 </head>
 
 
@@ -95,7 +95,7 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TTC_NAMES = (<span class="string">&#x27;NotoSansCJK-VF.otf.ttc&#x27;</span>, )</span><br></pre></td></tr></table></figure>
 <p><strong>注意，只有一个字体时，不要把末尾的逗号去掉。</strong></p>
 <p>执行：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># notofonttools虚拟环境</span></span><br><span class="line"><span class="built_in">source</span> ~/.<span class="built_in">local</span>/pipx/venvs/notofonttools/bin/activate</span><br><span class="line">python3 ./subset_noto_cjk.py</span><br><span class="line"><span class="comment"># 退出虚拟环境</span></span><br><span class="line">deactivate</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># notofonttools虚拟环境</span></span><br><span class="line"><span class="built_in">source</span> ~/.local/pipx/venvs/notofonttools/bin/activate</span><br><span class="line">python3 ./subset_noto_cjk.py</span><br><span class="line"><span class="comment"># 退出虚拟环境</span></span><br><span class="line">deactivate</span><br></pre></td></tr></table></figure>
 <p>这个脚本会去掉一些cmap，避免<a target="_blank" rel="noopener" href="https://github.com/simonsmh/notocjk/issues/21">Emoji显示的问题</a>。输出的字体在当前文件夹的subsetted文件夹下。</p>
 <h2 id="标点挤压（Contextual-Spacing）">标点挤压（Contextual Spacing）</h2>
 <p>详情可见此<a target="_blank" rel="noopener" href="https://android.googlesource.com/platform/external/noto-fonts/+/refs/heads/master/cjk/README.android">README.android</a>，但早期版本的Android实际上并没有使用过这个工具。</p>

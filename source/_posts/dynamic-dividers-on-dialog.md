@@ -93,17 +93,21 @@ const handleScrolling = (e: React.UIEvent<HTMLDivElement>) => {
 </DialogContent>
 ```
 
-Assert the type of `event.target` to `HTMLDivElement`.[^2] [^3]
+Assert the type of `event.target` to `HTMLDivElement`.[^2]
 
 ```jsx
 const handleScrolling = (e: React.UIEvent<HTMLDivElement>) => {
-  const target = e.target as HTMLDivElement;
+  if (e === undefined) {
+    return;
+  }
+
+  const { scrollTop, scrollHeight, offsetHeight } = e.currentTarget;
 
   /* ... */
 };
 ```
 
-Compare the [`scrollTop`](https://developer.mozilla.org/zh-CN/docs/Web/API/Element/scrollTop) with the difference between [`scrollHeight`](https://developer.mozilla.org/zh-CN/docs/Web/API/Element/scrollHeight) and [`scrollHeight`](https://developer.mozilla.org/zh-CN/docs/Web/API/Element/scrollHeight).[^4] [^5]
+Compare the [`scrollTop`](https://developer.mozilla.org/zh-CN/docs/Web/API/Element/scrollTop) with the difference between [`scrollHeight`](https://developer.mozilla.org/zh-CN/docs/Web/API/Element/scrollHeight) and [`scrollHeight`](https://developer.mozilla.org/zh-CN/docs/Web/API/Element/scrollHeight).[^3] [^4]
 
 ```jsx
 const handleScrolling = (e: React.UIEvent<HTMLDivElement>) => {
@@ -117,7 +121,9 @@ const handleScrolling = (e: React.UIEvent<HTMLDivElement>) => {
 ### Credits & Reference
 
 [^1]: [Check whether HTML element has scrollbars using JavaScript - GeeksforGeeks](https://www.geeksforgeeks.org/check-whether-html-element-has-scrollbars-using-javascript/)
-[^2]: [angular - Property 'value' does not exist on type 'EventTarget' - Stack Overflow](https://stackoverflow.com/a/42066698)
-[^3]: [TypeScript: Documentation - Everyday Types](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#type-assertions)
-[^4]: [reactjs - is this possible to get scroll position in material-ui select list on Scroll? - Stack Overflow](https://stackoverflow.com/a/55262502)
-[^5]: [browser - How to get scrollbar position with Javascript? - Stack Overflow](https://stackoverflow.com/a/2481370)
+[^2]: [reactjs - How to describe type scroll events? - Stack Overflow](https://stackoverflow.com/a/56736905)
+[^3]: [reactjs - is this possible to get scroll position in material-ui select list on Scroll? - Stack Overflow](https://stackoverflow.com/a/55262502)
+[^4]: [browser - How to get scrollbar position with Javascript? - Stack Overflow](https://stackoverflow.com/a/2481370)
+
+### Updates
+- 4/6/2022: Use `currentTarget` instead of `target`. (See [^2])

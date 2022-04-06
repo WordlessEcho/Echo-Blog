@@ -113,8 +113,10 @@ Compare the [`scrollTop`](https://developer.mozilla.org/zh-CN/docs/Web/API/Eleme
 const handleScrolling = (e: React.UIEvent<HTMLDivElement>) => {
   /* ... */
 
-  setTopDivider(target.scrollTop !== 0);
-  setBottomDivider(target.scrollTop !== target.scrollHeight - target.offsetHeight);
+  setTopDivider(scrollTop !== 0);
+  setBottomDivider(
+    scrollTop !== scrollHeight - offsetHeight
+  );
 };
 ```
 

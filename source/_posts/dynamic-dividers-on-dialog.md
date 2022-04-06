@@ -120,12 +120,12 @@ const handleScrolling = (e: React.UIEvent<HTMLDivElement>) => {
 };
 ```
 
+### Updates
+- 4/6/2022: Use `currentTarget` instead of `target`.
+
 ### Credits & References
 
 [^1]: [Check whether HTML element has scrollbars using JavaScript - GeeksforGeeks](https://www.geeksforgeeks.org/check-whether-html-element-has-scrollbars-using-javascript/)
 [^2]: [reactjs - How to describe type scroll events? - Stack Overflow](https://stackoverflow.com/a/56736905)
 [^3]: [reactjs - is this possible to get scroll position in material-ui select list on Scroll? - Stack Overflow](https://stackoverflow.com/a/55262502)
 [^4]: [browser - How to get scrollbar position with Javascript? - Stack Overflow](https://stackoverflow.com/a/2481370)
-
-### Updates
-- 4/6/2022: Use `currentTarget` instead of `target`.

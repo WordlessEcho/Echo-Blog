@@ -1,6 +1,7 @@
 ---
 title: Privacy Policy of Variable Font Test
 date: 2021-11-07 23:15:36
+lang: en-US
 ---
 
 # Privacy Policy

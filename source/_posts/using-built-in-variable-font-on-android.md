@@ -1,6 +1,7 @@
 ---
 title: Using Built-in Variable Font on Android
 date: 2021-11-08 16:05:11
+lang: en-US
 ---
 
 You can use variable font for **some writing system** after Android Oreo.

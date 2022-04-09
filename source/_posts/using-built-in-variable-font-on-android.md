@@ -5,7 +5,6 @@ date: 2021-11-08 16:05:11
 
 You can use variable font for **some writing system** after Android Oreo.
 <!--more-->
-----
 
 In Android Oreo, it is the first time that Android support variable font. And Android add `NotoSansKhmer-VF.ttf` for Khmer language.
 

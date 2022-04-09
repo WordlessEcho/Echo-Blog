@@ -4,7 +4,6 @@ date: 2020-05-31 00:11:01
 ---
 从回顾看当下的Android对字体方面的功能改进。
 <!--more-->
-----
 
 各位好，我是回音。是[Android 7+ 添加全字重 Noto Sans CJK](https://zhuanlan.zhihu.com/p/25027320)的作者。
 在过去三年多的时间里，Android经历了两个版本的迭代。从这篇文章落稿后，我又回顾了「为Android CJK字体加上多字重」的事情。

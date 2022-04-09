@@ -5,7 +5,6 @@ date: 2021/06/22 08:48:19
 
 Hide top divider while scrolling to the top, hide bottom divider while scrolling to the end.
 <!--more-->
-----
 
 首发于[[Dialog] Add Divider to Dialog · Issue #3155 · mui-org/material-ui · GitHub](https://github.com/mui-org/material-ui/issues/3155#issuecomment-863226215)，故用英文行文。
 

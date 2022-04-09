@@ -451,9 +451,13 @@ template {
   }
   .post {
     border-color: #616161;
+/* `.token.punctuation` is a keyword of Prism */
+/* Remove `text-shadow` from Prism */
+/* Remove `background` from Prism */
   }
   .post code,
-  .post pre {
+  .post pre,
+  .post .token.punctuation {
     background-color: #000;
     color: #fff;
   }
@@ -462,6 +466,17 @@ template {
   }
   .post a {
     color: #e5e5e5;
+  }
+  .post code[class*=language-],
+  .post pre[class*=language-] {
+    text-shadow: 0 0 #000;
+  }
+  .post .language-css .token.string,
+  .post .style .token.string,
+  .post .token.entity,
+  .post .token.operator,
+  .post .token.url {
+    background: unset;
   }
   #prev_next a {
     color: #e5e5e5;

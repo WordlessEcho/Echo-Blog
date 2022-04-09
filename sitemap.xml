@@ -2,6 +2,60 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://echo.moe/hello-world/</loc>
+    
+    <lastmod>2022-04-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://echo.moe/install-any-app-on-cmcc-iptv-unt401h/</loc>
+    
+    <lastmod>2022-04-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://echo.moe/otc-vf-chws-and-specifi-config-for-android/</loc>
+    
+    <lastmod>2022-04-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://echo.moe/privacy-policy-of-variable-font-test/</loc>
+    
+    <lastmod>2022-04-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://echo.moe/repeated-button/</loc>
+    
+    <lastmod>2022-04-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://echo.moe/review-multi-font-weight-for-android-cjk/</loc>
+    
+    <lastmod>2022-04-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://echo.moe/simply-implement-orm-by-using-reflection-in-c-sharp/</loc>
     
     <lastmod>2022-04-09</lastmod>
@@ -66,60 +120,6 @@
   
   <url>
     <loc>https://echo.moe/dynamic-dividers-on-dialog/</loc>
-    
-    <lastmod>2022-04-09</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://echo.moe/hello-world/</loc>
-    
-    <lastmod>2022-04-09</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://echo.moe/install-any-app-on-cmcc-iptv-unt401h/</loc>
-    
-    <lastmod>2022-04-09</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://echo.moe/otc-vf-chws-and-specifi-config-for-android/</loc>
-    
-    <lastmod>2022-04-09</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://echo.moe/privacy-policy-of-variable-font-test/</loc>
-    
-    <lastmod>2022-04-09</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://echo.moe/repeated-button/</loc>
-    
-    <lastmod>2022-04-09</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://echo.moe/review-multi-font-weight-for-android-cjk/</loc>
     
     <lastmod>2022-04-09</lastmod>
     

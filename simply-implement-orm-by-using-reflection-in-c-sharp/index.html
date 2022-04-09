@@ -22,10 +22,14 @@
     </style>
     <link rel="shortcut icon" href="/favicon.png">
     
-    <link rel="stylesheet"
-        href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/styles/arduino-light.min.css">
-    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/highlight.min.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
+    
+    <link href="//cdn.jsdelivr.net/npm/prismjs@1.27.0/themes/prism.min.css" rel="stylesheet" />
+
+        
+        <link href="//cdn.jsdelivr.net/npm/prismjs@1.27.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
+        
+
+        
     
     
     
@@ -83,156 +87,156 @@
 <span id="more"></span>
 <h1>数据库</h1>
 <p>作为示例，先新建一个company database，再新建一个包含name、age、telephone、address四列的employees table。</p>
-<pre><code class="highlight SQL"><span class="keyword">CREATE</span> DATABASE company;
+<pre class="line-numbers language-SQL" data-language="SQL"><code class="language-SQL">CREATE DATABASE company;
 USE company;
 
-<span class="keyword">CREATE</span> <span class="keyword">TABLE</span> employees (
-    id <span class="type">INT</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span>,
-    Name <span class="type">VARCHAR</span>(<span class="number">20</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,
-    Age <span class="type">INT</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span>,
-    Telephone <span class="type">VARCHAR</span>(<span class="number">20</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,
-    Address <span class="type">VARCHAR</span>(<span class="number">40</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,
-    <span class="keyword">PRIMARY</span> KEY (id)
-);</code></pre>
+CREATE TABLE employees (
+    id INT NOT NULL,
+    Name VARCHAR(20) NOT NULL,
+    Age INT NOT NULL,
+    Telephone VARCHAR(20) NOT NULL,
+    Address VARCHAR(40) NOT NULL,
+    PRIMARY KEY (id)
+);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>创建好以后的结构如下：</p>
-<pre><code class="highlight SQL"><span class="keyword">SHOW</span> DATABASES;
-<span class="operator">+</span><span class="comment">--------------------+</span>
-<span class="operator">|</span> Database           <span class="operator">|</span>
-<span class="operator">+</span><span class="comment">--------------------+</span>
-<span class="operator">|</span> company            <span class="operator">|</span>
-<span class="operator">|</span>                    <span class="operator">|</span>
-<span class="operator">|</span> <span class="operator">&lt;</span>...<span class="operator">&gt;</span>              <span class="operator">|</span>
-<span class="operator">+</span><span class="comment">--------------------+</span>
+<pre class="line-numbers language-SQL" data-language="SQL"><code class="language-SQL">SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| company            |
+|                    |
+| &lt;...&gt;              |
++--------------------+
 
 USE company;
-<span class="keyword">SHOW</span> TABLES;
-<span class="operator">+</span><span class="comment">-------------------+</span>
-<span class="operator">|</span> Tables_in_company <span class="operator">|</span>
-<span class="operator">+</span><span class="comment">-------------------+</span>
-<span class="operator">|</span> employees         <span class="operator">|</span>
-<span class="operator">+</span><span class="comment">-------------------+</span>
+SHOW TABLES;
++-------------------+
+| Tables_in_company |
++-------------------+
+| employees         |
++-------------------+
 
-<span class="operator">+</span><span class="comment">----+---------------+-----+-------------+-----------+</span>
-<span class="operator">|</span> id <span class="operator">|</span> Name          <span class="operator">|</span> Age <span class="operator">|</span> Telephone   <span class="operator">|</span> Address   <span class="operator">|</span>
-<span class="operator">+</span><span class="comment">----+---------------+-----+-------------+-----------+</span></code></pre>
++----+---------------+-----+-------------+-----------+
+| id | Name          | Age | Telephone   | Address   |
++----+---------------+-----+-------------+-----------+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h1>model</h1>
 <p>新建一个model文件夹。按照上面创建的数据库，在model下创建一个employee类。</p>
-<pre><code class="highlight csharp"><span class="keyword">namespace</span> &lt;<span class="title">ProjectName</span>&gt;.<span class="title">Model</span>
-&#123;
-    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Employee</span>
-    &#123;
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">namespace</span> <span class="token operator">&lt;</span>ProjectName<span class="token operator">></span><span class="token punctuation">.</span>Model
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Employee</span>
+    <span class="token punctuation">&#123;</span>
 
-        <span class="comment">// set getter for GetProperties()</span>
-        <span class="keyword">public</span> <span class="built_in">string</span> Name &#123; <span class="keyword">get</span>; &#125;
-        <span class="keyword">public</span> <span class="built_in">int</span> Age &#123; <span class="keyword">get</span>; &#125;
-        <span class="keyword">public</span> <span class="built_in">string</span> Telephone &#123; <span class="keyword">get</span>; &#125;
-        <span class="keyword">public</span> <span class="built_in">string</span> Address &#123; <span class="keyword">get</span>; &#125;
+        <span class="token comment">// set getter for GetProperties()</span>
+        <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">string</span></span> Name <span class="token punctuation">&#123;</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
+        <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">int</span></span> Age <span class="token punctuation">&#123;</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
+        <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">string</span></span> Telephone <span class="token punctuation">&#123;</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
+        <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">string</span></span> Address <span class="token punctuation">&#123;</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
 
-        <span class="function"><span class="keyword">public</span> <span class="title">Employee</span>(<span class="params"><span class="built_in">string</span> name, <span class="built_in">int</span> age,</span></span>
-<span class="params"><span class="function">            <span class="built_in">string</span> telephone, <span class="built_in">string</span> address</span>)</span>
-        &#123;
-            Name = name;
-            Age = age;
-            Telephone = telephone;
-            Address = address;
-        &#125;
+        <span class="token keyword">public</span> <span class="token function">Employee</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">string</span></span> name<span class="token punctuation">,</span> <span class="token class-name"><span class="token keyword">int</span></span> age<span class="token punctuation">,</span>
+            <span class="token class-name"><span class="token keyword">string</span></span> telephone<span class="token punctuation">,</span> <span class="token class-name"><span class="token keyword">string</span></span> address<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            Name <span class="token operator">=</span> name<span class="token punctuation">;</span>
+            Age <span class="token operator">=</span> age<span class="token punctuation">;</span>
+            Telephone <span class="token operator">=</span> telephone<span class="token punctuation">;</span>
+            Address <span class="token operator">=</span> address<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
 
-    &#125;
-&#125;</code></pre>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>注意，设定<code>getter</code>对于<code>GetProperties()</code>来说是必要的。</p>
 <h1>数据库连接</h1>
 <p>新建Dao文件夹，在Dao下新建一个使用单例模式<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>的CompanyDb类，用于连接到数据库。</p>
-<pre><code class="highlight csharp"><span class="keyword">namespace</span> &lt;<span class="title">ProjectName</span>&gt;.<span class="title">Dao</span>
-&#123;
-    <span class="keyword">public</span> <span class="keyword">sealed</span> <span class="keyword">class</span> <span class="title">CompanyDb</span>
-    &#123;
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">namespace</span> <span class="token operator">&lt;</span>ProjectName<span class="token operator">></span><span class="token punctuation">.</span>Dao
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">public</span> <span class="token keyword">sealed</span> <span class="token keyword">class</span> <span class="token class-name">CompanyDb</span>
+    <span class="token punctuation">&#123;</span>
 
-        <span class="keyword">public</span> <span class="keyword">static</span> MySqlConnection Connection &#123; <span class="keyword">get</span> &#123; <span class="keyword">return</span> Nested.Connection; &#125; &#125;
+        <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token return-type class-name">MySqlConnection</span> Connection <span class="token punctuation">&#123;</span> <span class="token keyword">get</span> <span class="token punctuation">&#123;</span> <span class="token keyword">return</span> Nested<span class="token punctuation">.</span>Connection<span class="token punctuation">;</span> <span class="token punctuation">&#125;</span> <span class="token punctuation">&#125;</span>
 
-        <span class="function"><span class="keyword">private</span> <span class="title">CompanyDb</span>()</span> &#123; &#125;
+        <span class="token keyword">private</span> <span class="token function">CompanyDb</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token punctuation">&#125;</span>
 
-        <span class="keyword">private</span> <span class="keyword">class</span> <span class="title">Nested</span>
-        &#123;
-            <span class="function"><span class="keyword">static</span> <span class="title">Nested</span>()</span> &#123; &#125;
+        <span class="token keyword">private</span> <span class="token keyword">class</span> <span class="token class-name">Nested</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token keyword">static</span> <span class="token function">Nested</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token punctuation">&#125;</span>
 
-            <span class="keyword">internal</span> <span class="keyword">static</span> <span class="keyword">readonly</span> MySqlConnection Connection = <span class="keyword">new</span>
-                MySqlConnection(<span class="string">$&quot;server = localhost; User ID = &quot;</span> +
-                <span class="string">$&quot;<span class="subst">&#123;&lt;username&gt;&#125;</span>; Password = <span class="subst">&#123;&lt;Password&gt;&#125;</span>; DataBase = &quot;</span> +
-                <span class="string">&quot;company; Charset = utf8; convert zero datetime = true&quot;</span>);
-        &#125;
+            <span class="token keyword">internal</span> <span class="token keyword">static</span> <span class="token keyword">readonly</span> <span class="token class-name">MySqlConnection</span> Connection <span class="token operator">=</span> <span class="token keyword">new</span>
+                <span class="token constructor-invocation class-name">MySqlConnection</span><span class="token punctuation">(</span><span class="token interpolation-string"><span class="token string">$"server = localhost; User ID = "</span></span> <span class="token operator">+</span>
+                <span class="token interpolation-string"><span class="token string">$"</span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp"><span class="token operator">&lt;</span>username<span class="token operator">></span></span><span class="token punctuation">&#125;</span></span><span class="token string">; Password = </span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp"><span class="token operator">&lt;</span>Password<span class="token operator">></span></span><span class="token punctuation">&#125;</span></span><span class="token string">; DataBase = "</span></span> <span class="token operator">+</span>
+                <span class="token string">"company; Charset = utf8; convert zero datetime = true"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
 
-    &#125;
-&#125;</code></pre>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h1>操作数据表</h1>
 <h2 id="分解">分解</h2>
 <p>在Dao下新建EmployeeHandler，并创建一个接收<code>Model.Employee</code>对象的Add函数：</p>
-<pre><code class="highlight csharp"><span class="keyword">namespace</span> &lt;<span class="title">ProjectName</span>&gt;.<span class="title">Dao</span>
-&#123;
-    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">EmployeeHandler</span>
-    &#123;
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">namespace</span> <span class="token operator">&lt;</span>ProjectName<span class="token operator">></span><span class="token punctuation">.</span>Dao
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">EmployeeHandler</span>
+    <span class="token punctuation">&#123;</span>
 
-        <span class="function"><span class="keyword">static</span> <span class="keyword">public</span> <span class="built_in">int</span> <span class="title">Add</span>(<span class="params">Model.Employee model</span>)</span>
-        &#123;
-            <span class="comment">// Code will goes here</span>
-        &#125;
+        <span class="token keyword">static</span> <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">int</span></span> <span class="token function">Add</span><span class="token punctuation">(</span><span class="token class-name">Model<span class="token punctuation">.</span>Employee</span> model<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token comment">// Code will goes here</span>
+        <span class="token punctuation">&#125;</span>
 
-    &#125;
-&#125;</code></pre>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>首先，将model的属性名与属性值映射为字典<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>。</p>
-<pre><code class="highlight csharp"><span class="comment">// Put property names and property values of model as pairs into dictionary</span>
-Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">object</span>&gt; propertyDict = model.GetType().GetProperties()
-    .ToDictionary
-    (
-        propInfo =&gt; propInfo.Name,
-        <span class="comment">// Add quote to avoid user input breaks SQL command</span>
-        propInfo =&gt; <span class="string">$&quot;&#x27;<span class="subst">&#123;propInfo.GetValue(model, <span class="literal">null</span>)&#125;</span>&#x27;&quot;</span>
-    );</code></pre>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token comment">// Put property names and property values of model as pairs into dictionary</span>
+<span class="token class-name">Dictionary<span class="token punctuation">&lt;</span><span class="token keyword">string</span><span class="token punctuation">,</span> <span class="token keyword">object</span><span class="token punctuation">></span></span> propertyDict <span class="token operator">=</span> model<span class="token punctuation">.</span><span class="token function">GetType</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">GetProperties</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span>ToDictionary
+    <span class="token punctuation">(</span>
+        propInfo <span class="token operator">=></span> propInfo<span class="token punctuation">.</span>Name<span class="token punctuation">,</span>
+        <span class="token comment">// Add quote to avoid user input breaks SQL command</span>
+        propInfo <span class="token operator">=></span> <span class="token interpolation-string"><span class="token string">$"'</span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp">propInfo<span class="token punctuation">.</span><span class="token function">GetValue</span><span class="token punctuation">(</span>model<span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">)</span></span><span class="token punctuation">&#125;</span></span><span class="token string">'"</span></span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>结合Dictionary.Keys和Dictionary.Values分别获取它们的键的列表与值的列表<sup class="footnote-ref"><a href="#fn3" id="fnref3">[3]</a></sup>，再使用<code>string.Join()</code>构造SQL命令语句。</p>
-<pre><code class="highlight csharp"><span class="comment">// Build a SQL command by traversing properties of model</span>
-<span class="comment">// For example: &quot;INSERT INTO table (column1, column2) VALUES (&#x27;value1&#x27;, &#x27;value2&#x27;);&quot;</span>
-<span class="built_in">string</span> sqlCmd = <span class="string">$&quot;INSERT INTO employees (&quot;</span> +
-    <span class="string">$&quot;<span class="subst">&#123;<span class="built_in">string</span>.Join(<span class="string">&quot;, &quot;</span>, propertyDict.Keys)&#125;</span>) VALUES &quot;</span> +
-    <span class="string">$&quot;(<span class="subst">&#123;<span class="built_in">string</span>.Join(<span class="string">&quot;, &quot;</span>, propertyDict.Values)&#125;</span>);&quot;</span>;</code></pre>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token comment">// Build a SQL command by traversing properties of model</span>
+<span class="token comment">// For example: "INSERT INTO table (column1, column2) VALUES ('value1', 'value2');"</span>
+<span class="token class-name"><span class="token keyword">string</span></span> sqlCmd <span class="token operator">=</span> <span class="token interpolation-string"><span class="token string">$"INSERT INTO employees ("</span></span> <span class="token operator">+</span>
+    <span class="token interpolation-string"><span class="token string">$"</span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp"><span class="token keyword">string</span><span class="token punctuation">.</span><span class="token function">Join</span><span class="token punctuation">(</span><span class="token string">", "</span><span class="token punctuation">,</span> propertyDict<span class="token punctuation">.</span>Keys<span class="token punctuation">)</span></span><span class="token punctuation">&#125;</span></span><span class="token string">) VALUES "</span></span> <span class="token operator">+</span>
+    <span class="token interpolation-string"><span class="token string">$"(</span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp"><span class="token keyword">string</span><span class="token punctuation">.</span><span class="token function">Join</span><span class="token punctuation">(</span><span class="token string">", "</span><span class="token punctuation">,</span> propertyDict<span class="token punctuation">.</span>Values<span class="token punctuation">)</span></span><span class="token punctuation">&#125;</span></span><span class="token string">);"</span></span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>剩下就是没什么好讲的执行过程了。</p>
-<pre><code class="highlight csharp">MySqlCommand cmd  = <span class="keyword">new</span> MySqlCommand(sqlCmd, CompanyDb.connection);
-cmd.Connection.Open();
-<span class="built_in">int</span> resultCode = cmd.ExecuteNonQuery();
-cmd.Connection.Close();
-<span class="keyword">return</span> resultCode;</code></pre>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token class-name">MySqlCommand</span> cmd  <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">MySqlCommand</span><span class="token punctuation">(</span>sqlCmd<span class="token punctuation">,</span> CompanyDb<span class="token punctuation">.</span>connection<span class="token punctuation">)</span><span class="token punctuation">;</span>
+cmd<span class="token punctuation">.</span>Connection<span class="token punctuation">.</span><span class="token function">Open</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name"><span class="token keyword">int</span></span> resultCode <span class="token operator">=</span> cmd<span class="token punctuation">.</span><span class="token function">ExecuteNonQuery</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+cmd<span class="token punctuation">.</span>Connection<span class="token punctuation">.</span><span class="token function">Close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">return</span> resultCode<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="总览">总览</h2>
-<pre><code class="highlight csharp"><span class="keyword">namespace</span> &lt;<span class="title">ProjectName</span>&gt;.<span class="title">Dao</span>
-&#123;
-    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">EmployeeHandler</span>
-    &#123;
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">namespace</span> <span class="token operator">&lt;</span>ProjectName<span class="token operator">></span><span class="token punctuation">.</span>Dao
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">EmployeeHandler</span>
+    <span class="token punctuation">&#123;</span>
 
-        <span class="function"><span class="keyword">static</span> <span class="keyword">public</span> <span class="built_in">int</span> <span class="title">Add</span>(<span class="params">Model.Employee model</span>)</span>
-        &#123;
-            <span class="comment">// Put property names and property values of model as pairs into dictionary</span>
-            Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">object</span>&gt; propertyDict = model.GetType().GetProperties()
-                .ToDictionary
-                (
-                    propInfo =&gt; propInfo.Name,
-                    <span class="comment">// Add quote to avoid user input breaks SQL command</span>
-                    propInfo =&gt; <span class="string">$&quot;&#x27;<span class="subst">&#123;propInfo.GetValue(model, <span class="literal">null</span>)&#125;</span>&#x27;&quot;</span>
-                );
+        <span class="token keyword">static</span> <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">int</span></span> <span class="token function">Add</span><span class="token punctuation">(</span><span class="token class-name">Model<span class="token punctuation">.</span>Employee</span> model<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token comment">// Put property names and property values of model as pairs into dictionary</span>
+            <span class="token class-name">Dictionary<span class="token punctuation">&lt;</span><span class="token keyword">string</span><span class="token punctuation">,</span> <span class="token keyword">object</span><span class="token punctuation">></span></span> propertyDict <span class="token operator">=</span> model<span class="token punctuation">.</span><span class="token function">GetType</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">GetProperties</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span>ToDictionary
+                <span class="token punctuation">(</span>
+                    propInfo <span class="token operator">=></span> propInfo<span class="token punctuation">.</span>Name<span class="token punctuation">,</span>
+                    <span class="token comment">// Add quote to avoid user input breaks SQL command</span>
+                    propInfo <span class="token operator">=></span> <span class="token interpolation-string"><span class="token string">$"'</span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp">propInfo<span class="token punctuation">.</span><span class="token function">GetValue</span><span class="token punctuation">(</span>model<span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">)</span></span><span class="token punctuation">&#125;</span></span><span class="token string">'"</span></span>
+                <span class="token punctuation">)</span><span class="token punctuation">;</span>
                 
-            <span class="comment">// Build a SQL command by traversing properties of model</span>
-            <span class="comment">// For example: &quot;INSERT INTO table (column1, column2) VALUES (&#x27;value1&#x27;, &#x27;value2&#x27;);&quot;</span>
-            <span class="built_in">string</span> sqlCmd = <span class="string">$&quot;INSERT INTO employees (&quot;</span> +
-                <span class="string">$&quot;<span class="subst">&#123;<span class="built_in">string</span>.Join(<span class="string">&quot;, &quot;</span>, propertyDict.Keys)&#125;</span>) VALUES &quot;</span> +
-                <span class="string">$&quot;(<span class="subst">&#123;<span class="built_in">string</span>.Join(<span class="string">&quot;, &quot;</span>, propertyDict.Values)&#125;</span>);&quot;</span>;
+            <span class="token comment">// Build a SQL command by traversing properties of model</span>
+            <span class="token comment">// For example: "INSERT INTO table (column1, column2) VALUES ('value1', 'value2');"</span>
+            <span class="token class-name"><span class="token keyword">string</span></span> sqlCmd <span class="token operator">=</span> <span class="token interpolation-string"><span class="token string">$"INSERT INTO employees ("</span></span> <span class="token operator">+</span>
+                <span class="token interpolation-string"><span class="token string">$"</span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp"><span class="token keyword">string</span><span class="token punctuation">.</span><span class="token function">Join</span><span class="token punctuation">(</span><span class="token string">", "</span><span class="token punctuation">,</span> propertyDict<span class="token punctuation">.</span>Keys<span class="token punctuation">)</span></span><span class="token punctuation">&#125;</span></span><span class="token string">) VALUES "</span></span> <span class="token operator">+</span>
+                <span class="token interpolation-string"><span class="token string">$"(</span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token expression language-csharp"><span class="token keyword">string</span><span class="token punctuation">.</span><span class="token function">Join</span><span class="token punctuation">(</span><span class="token string">", "</span><span class="token punctuation">,</span> propertyDict<span class="token punctuation">.</span>Values<span class="token punctuation">)</span></span><span class="token punctuation">&#125;</span></span><span class="token string">);"</span></span><span class="token punctuation">;</span>
 
-            MySqlCommand cmd  = <span class="keyword">new</span> MySqlCommand(sqlCmd, CompanyDb.connection);
-            cmd.Connection.Open();
-            <span class="built_in">int</span> resultCode = cmd.ExecuteNonQuery();
-            cmd.Connection.Close();
-            <span class="keyword">return</span> resultCode;
-        &#125;
+            <span class="token class-name">MySqlCommand</span> cmd  <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">MySqlCommand</span><span class="token punctuation">(</span>sqlCmd<span class="token punctuation">,</span> CompanyDb<span class="token punctuation">.</span>connection<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            cmd<span class="token punctuation">.</span>Connection<span class="token punctuation">.</span><span class="token function">Open</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name"><span class="token keyword">int</span></span> resultCode <span class="token operator">=</span> cmd<span class="token punctuation">.</span><span class="token function">ExecuteNonQuery</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            cmd<span class="token punctuation">.</span>Connection<span class="token punctuation">.</span><span class="token function">Close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> resultCode<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
 
-    &#125;
-&#125;</code></pre>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h1>使用</h1>
-<pre><code class="highlight csharp">EmployeeHandler.Add(<span class="keyword">new</span> Model.Employee(name, age, telephone, address));</code></pre>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp">EmployeeHandler<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token constructor-invocation class-name">Model<span class="token punctuation">.</span>Employee</span><span class="token punctuation">(</span>name<span class="token punctuation">,</span> age<span class="token punctuation">,</span> telephone<span class="token punctuation">,</span> address<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <hr class="footnotes-sep">
 <section class="footnotes">
 <ol class="footnotes-list">

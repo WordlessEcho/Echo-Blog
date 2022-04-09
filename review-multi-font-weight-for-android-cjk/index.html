@@ -99,15 +99,15 @@ Android P则加入了fallbackFor这个属性，Google用来支持CJK的「衬线
 没有办法被调用。Android P则给开发者引入了一个新的textFontWeight属性，允许开发者设定具体数值。</p>
 <p>这里讲一个小插曲，中文注音符号的字体从<br>
 <a target="_blank" rel="noopener" href="https://android.googlesource.com/platform/frameworks/base/+/refs/heads/nougat-dev/data/fonts/fonts.xml#340">7.0预览版</a>开始就一直处于TODO状态。</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- <span class="doctag">TODO:</span> Add Bopo --&gt;</span></span><br></pre></td></tr></table></figure>
+<pre><code class="highlight xml"><span class="comment">&lt;!-- <span class="doctag">TODO:</span> Add Bopo --&gt;</span></code></pre>
 <p>但是直到<br>
 <a target="_blank" rel="noopener" href="https://android.googlesource.com/platform/frameworks/base/+/refs/tags/android-9.0.0_r56/data/fonts/fonts.xml#527">9.0</a><br>
 Google才正式把这个坑填上</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">family</span> <span class="attr">lang</span>=<span class="string">&quot;zh-Hant zh-Bopo&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<pre><code class="highlight xml"><span class="tag">&lt;<span class="name">family</span> <span class="attr">lang</span>=<span class="string">&quot;zh-Hant zh-Bopo&quot;</span>&gt;</span></code></pre>
 <p>然后在<br>
 <a target="_blank" rel="noopener" href="https://android.googlesource.com/platform/frameworks/base/+/refs/tags/android-10.0.0_r36/data/fonts/fonts.xml#552">10.0</a><br>
 里又改了一次，加了个逗号进去</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">family</span> <span class="attr">lang</span>=<span class="string">&quot;zh-Hant,zh-Bopo&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<pre><code class="highlight xml"><span class="tag">&lt;<span class="name">family</span> <span class="attr">lang</span>=<span class="string">&quot;zh-Hant,zh-Bopo&quot;</span>&gt;</span></code></pre>
 <h2 id="孪生兄弟：思源字体">孪生兄弟：思源字体</h2>
 <p>再讲讲Noto CJK和它的孪生兄弟思源字体。Noto和思源本质上是同一套字体，不过他们之间又有一些细微的差别。首先是字重，各位看下面这张表就可以了，我怕绕晕大家。</p>
 <p><img src="https://i.loli.net/2020/05/31/KENmsWrp5nJGjVb.jpg" alt="font-weight-between-the-source-han-and-noto.jpg"></p>

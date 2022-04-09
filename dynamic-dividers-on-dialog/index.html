@@ -87,23 +87,74 @@
 <p><img src="https://user-images.githubusercontent.com/12007025/122402749-5c05a680-cfb0-11eb-8f16-1cfb910c44ed.gif" alt="dialog-example"></p>
 <h3 id="Details">Details</h3>
 <p>Create two variables to control dividers.</p>
-<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> [topDivider, setTopDivider] = <span class="title function_">useState</span>(<span class="literal">false</span>);</span><br><span class="line"><span class="keyword">const</span> [bottomDivider, setBottomDivider] = <span class="title function_">useState</span>(<span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
+<pre><code class="highlight jsx"><span class="keyword">const</span> [topDivider, setTopDivider] = <span class="title function_">useState</span>(<span class="literal">false</span>);
+<span class="keyword">const</span> [bottomDivider, setBottomDivider] = <span class="title function_">useState</span>(<span class="literal">false</span>);</code></pre>
 <p>Create a function to initilize status of dividers. Because <code>Dialog</code> have its own “lifecycle”. (You will see the explanation below)</p>
-<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">initializeDividers</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">  <span class="title function_">setTopDivider</span>(<span class="literal">false</span>);</span><br><span class="line">  <span class="title function_">setBottomDivider</span>(<span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* ... */</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<pre><code class="highlight jsx"><span class="keyword">const</span> <span class="title function_">initializeDividers</span> = (<span class="params"></span>) =&gt; &#123;
+  <span class="title function_">setTopDivider</span>(<span class="literal">false</span>);
+  <span class="title function_">setBottomDivider</span>(<span class="literal">false</span>);
+
+  <span class="comment">/* ... */</span>
+&#125;;</code></pre>
 <p>Detect if scrollbar exist by comparing <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/Element/scrollHeight"><code>scrollHeight</code></a> with <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/API/Element/clientHeight"><code>clientHeight</code></a>.<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup></p>
 <p>The id in <code>getElementById</code> is for <code>DialogContent</code>.</p>
-<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">initializeDividers</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">  <span class="comment">/* ... */</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> dialogContent = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;dialog-content&#x27;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (dialogContent !== <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (dialogContent.<span class="property">scrollHeight</span> &gt; dialogContent.<span class="property">clientHeight</span>) &#123;</span><br><span class="line">      <span class="title function_">setBottomDivider</span>(<span class="literal">true</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<pre><code class="highlight jsx"><span class="keyword">const</span> <span class="title function_">initializeDividers</span> = (<span class="params"></span>) =&gt; &#123;
+  <span class="comment">/* ... */</span>
+
+  <span class="keyword">const</span> dialogContent = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;dialog-content&#x27;</span>);
+
+  <span class="keyword">if</span> (dialogContent !== <span class="literal">null</span>) &#123;
+    <span class="keyword">if</span> (dialogContent.<span class="property">scrollHeight</span> &gt; dialogContent.<span class="property">clientHeight</span>) &#123;
+      <span class="title function_">setBottomDivider</span>(<span class="literal">true</span>);
+    &#125;
+  &#125;
+&#125;;</code></pre>
 <p>Adding <code>initializeDividers</code> to <code>Dialog</code> in <a target="_blank" rel="noopener" href="https://mui.com/guides/migration-v4/#dialog"><code>onEnter of TransitionProps</code></a>. Because display of <code>Dialog</code> is control by <code>open</code>. (Now you know why we don’t use Effect Hook) You will get <code>null</code> if you are using React Effect Hook to get element.</p>
-<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="title class_">Dialog</span></span><br><span class="line">  open=&#123;<span class="comment">/* variable from caller */</span>&#125;</span><br><span class="line">  <span class="title class_">TransitionProps</span>=&#123;&#123;</span><br><span class="line">    <span class="attr">onEnter</span>: initializeDividers,</span><br><span class="line">  &#125;&#125;</span><br><span class="line">  scroll=<span class="string">&quot;paper&quot;</span></span><br><span class="line">&gt;</span><br><span class="line"></span><br><span class="line">&#123;<span class="comment">/* ... */</span>&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="highlight jsx">&lt;<span class="title class_">Dialog</span>
+  open=&#123;<span class="comment">/* variable from caller */</span>&#125;
+  <span class="title class_">TransitionProps</span>=&#123;&#123;
+    <span class="attr">onEnter</span>: initializeDividers,
+  &#125;&#125;
+  scroll=<span class="string">&quot;paper&quot;</span>
+&gt;
+
+&#123;<span class="comment">/* ... */</span>&#125;</code></pre>
 <p>Add <code>Divider</code>s before &amp; after <code>DialogContent</code> with its variable from State Hook. And don’t forget to set a id for <code>DialogContent</code>.</p>
-<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;topDivider ? <span class="language-xml"><span class="tag">&lt;<span class="name">Divider</span> /&gt;</span></span> : <span class="literal">null</span>&#125;</span><br><span class="line">&lt;<span class="title class_">DialogContent</span> id=<span class="string">&quot;dialog-content&quot;</span>&gt;</span><br><span class="line">  &#123;<span class="comment">/* ... */</span>&#125;</span><br><span class="line">&lt;/<span class="title class_">DialogContent</span>&gt;</span><br><span class="line">&#123;bottomDivider ? <span class="language-xml"><span class="tag">&lt;<span class="name">Divider</span> /&gt;</span></span> : <span class="literal">null</span>&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="highlight jsx">&#123;topDivider ? <span class="language-xml"><span class="tag">&lt;<span class="name">Divider</span> /&gt;</span></span> : <span class="literal">null</span>&#125;
+&lt;<span class="title class_">DialogContent</span> id=<span class="string">&quot;dialog-content&quot;</span>&gt;
+  &#123;<span class="comment">/* ... */</span>&#125;
+&lt;/<span class="title class_">DialogContent</span>&gt;
+&#123;bottomDivider ? <span class="language-xml"><span class="tag">&lt;<span class="name">Divider</span> /&gt;</span></span> : <span class="literal">null</span>&#125;</code></pre>
 <p>Now let’s handle the scrolling.</p>
 <p>You need to listen the <code>onScroll</code> event in <code>DialogContent</code>.</p>
-<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">handleScrolling</span> = (<span class="params">e: React.UIEvent&lt;HTMLDivElement&gt;</span>) =&gt; &#123;</span><br><span class="line">  <span class="comment">/* ... */</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* ... */</span></span><br><span class="line"></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">DialogContent</span> <span class="attr">id</span>=<span class="string">&quot;dialog-content&quot;</span> <span class="attr">onScroll</span>=<span class="string">&#123;handleScrolling&#125;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">  &#123;/* ... */&#125;</span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;/<span class="name">DialogContent</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<pre><code class="highlight jsx"><span class="keyword">const</span> <span class="title function_">handleScrolling</span> = (<span class="params">e: React.UIEvent&lt;HTMLDivElement&gt;</span>) =&gt; &#123;
+  <span class="comment">/* ... */</span>
+&#125;;
+
+<span class="comment">/* ... */</span>
+
+<span class="language-xml"><span class="tag">&lt;<span class="name">DialogContent</span> <span class="attr">id</span>=<span class="string">&quot;dialog-content&quot;</span> <span class="attr">onScroll</span>=<span class="string">&#123;handleScrolling&#125;</span>&gt;</span></span>
+<span class="language-xml">  &#123;/* ... */&#125;</span>
+<span class="language-xml"><span class="tag">&lt;/<span class="name">DialogContent</span>&gt;</span></span></code></pre>
 <p>Assert the type of <code>event.target</code> to <code>HTMLDivElement</code>.<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup></p>
-<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">handleScrolling</span> = (<span class="params">e: React.UIEvent&lt;HTMLDivElement&gt;</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (e === <span class="literal">undefined</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> &#123; scrollTop, scrollHeight, offsetHeight &#125; = e.<span class="property">currentTarget</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* ... */</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<pre><code class="highlight jsx"><span class="keyword">const</span> <span class="title function_">handleScrolling</span> = (<span class="params">e: React.UIEvent&lt;HTMLDivElement&gt;</span>) =&gt; &#123;
+  <span class="keyword">if</span> (e === <span class="literal">undefined</span>) &#123;
+    <span class="keyword">return</span>;
+  &#125;
+
+  <span class="keyword">const</span> &#123; scrollTop, scrollHeight, offsetHeight &#125; = e.<span class="property">currentTarget</span>;
+
+  <span class="comment">/* ... */</span>
+&#125;;</code></pre>
 <p>Compare the <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/Element/scrollTop"><code>scrollTop</code></a> with the difference between <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/Element/scrollHeight"><code>scrollHeight</code></a> and <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/Element/scrollHeight"><code>scrollHeight</code></a>.<sup class="footnote-ref"><a href="#fn3" id="fnref3">[3]</a></sup> <sup class="footnote-ref"><a href="#fn4" id="fnref4">[4]</a></sup></p>
-<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">handleScrolling</span> = (<span class="params">e: React.UIEvent&lt;HTMLDivElement&gt;</span>) =&gt; &#123;</span><br><span class="line">  <span class="comment">/* ... */</span></span><br><span class="line"></span><br><span class="line">  <span class="title function_">setTopDivider</span>(scrollTop !== <span class="number">0</span>);</span><br><span class="line">  <span class="title function_">setBottomDivider</span>(</span><br><span class="line">    scrollTop !== scrollHeight - offsetHeight</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<pre><code class="highlight jsx"><span class="keyword">const</span> <span class="title function_">handleScrolling</span> = (<span class="params">e: React.UIEvent&lt;HTMLDivElement&gt;</span>) =&gt; &#123;
+  <span class="comment">/* ... */</span>
+
+  <span class="title function_">setTopDivider</span>(scrollTop !== <span class="number">0</span>);
+  <span class="title function_">setBottomDivider</span>(
+    scrollTop !== scrollHeight - offsetHeight
+  );
+&#125;;</code></pre>
 <h3 id="Updates">Updates</h3>
 <ul>
 <li>4/6/2022: Use <code>currentTarget</code> instead of <code>target</code>.</li>

@@ -19,14 +19,14 @@ Here is an example on [CodeSandbox](https://codesandbox.io/s/dialog-with-dynamic
 
 Create two variables to control dividers.
 
-```jsx
+```tsx
 const [topDivider, setTopDivider] = useState(false);
 const [bottomDivider, setBottomDivider] = useState(false);
 ```
 
 Create a function to initilize status of dividers. Because `Dialog` have its own "lifecycle". (You will see the explanation below)
 
-```jsx
+```tsx
 const initializeDividers = () => {
   setTopDivider(false);
   setBottomDivider(false);
@@ -39,7 +39,7 @@ Detect if scrollbar exist by comparing [`scrollHeight`](https://developer.mozill
 
 The id in `getElementById` is for `DialogContent`.
 
-```jsx
+```tsx
 const initializeDividers = () => {
   /* ... */
 
@@ -55,7 +55,7 @@ const initializeDividers = () => {
 
 Adding `initializeDividers` to `Dialog` in [`onEnter of TransitionProps`](https://mui.com/guides/migration-v4/#dialog). Because display of `Dialog` is control by `open`. (Now you know why we don't use Effect Hook) You will get `null` if you are using React Effect Hook to get element.
 
-```jsx
+```tsx
 <Dialog
   open={/* variable from caller */}
   TransitionProps={{
@@ -69,7 +69,7 @@ Adding `initializeDividers` to `Dialog` in [`onEnter of TransitionProps`](https:
 
 Add `Divider`s before & after `DialogContent` with its variable from State Hook. And don't forget to set a id for `DialogContent`.
 
-```jsx
+```tsx
 {topDivider ? <Divider /> : null}
 <DialogContent id="dialog-content">
   {/* ... */}
@@ -81,7 +81,7 @@ Now let's handle the scrolling.
 
 You need to listen the `onScroll` event in `DialogContent`.
 
-```jsx
+```tsx
 const handleScrolling = (e: React.UIEvent<HTMLDivElement>) => {
   /* ... */
 };
@@ -95,7 +95,7 @@ const handleScrolling = (e: React.UIEvent<HTMLDivElement>) => {
 
 Assert the type of `event.target` to `HTMLDivElement`.[^2]
 
-```jsx
+```tsx
 const handleScrolling = (e: React.UIEvent<HTMLDivElement>) => {
   if (e === undefined) {
     return;
@@ -109,7 +109,7 @@ const handleScrolling = (e: React.UIEvent<HTMLDivElement>) => {
 
 Compare the [`scrollTop`](https://developer.mozilla.org/zh-CN/docs/Web/API/Element/scrollTop) with the difference between [`scrollHeight`](https://developer.mozilla.org/zh-CN/docs/Web/API/Element/scrollHeight) and [`scrollHeight`](https://developer.mozilla.org/zh-CN/docs/Web/API/Element/scrollHeight).[^3] [^4]
 
-```jsx
+```tsx
 const handleScrolling = (e: React.UIEvent<HTMLDivElement>) => {
   /* ... */
 

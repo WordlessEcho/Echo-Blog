@@ -45,7 +45,7 @@ post_asset_folder: false
 relative_link: false
 future: true
 highlight:
-  enable: true
+  enable: false
   auto_detect: false
   line_number: false
   line_threshold: 0
@@ -53,9 +53,10 @@ highlight:
   wrap: false
   hljs: false
 prismjs:
-  enable: false
+  enable: true
   preprocess: true
   line_number: true
+  line_threshold: 0
   tab_replace: '  '
 markdown:
   plugins:

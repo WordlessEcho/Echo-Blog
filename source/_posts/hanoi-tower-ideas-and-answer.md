@@ -4,6 +4,7 @@ date: 2022-04-15 02:27:36
 ---
 
 In the study of SICP (Structure and Interpretation of Computer Programs), there is a homework in [Lecture 1B, MIT 6.001 (1986)](https://youtu.be/V_7mmwpgJHU).
+<!--more-->
 
 To solve the Hanoi Tower, there is a list of ideas from simple to hard that avoid you going to the wrong way.
 

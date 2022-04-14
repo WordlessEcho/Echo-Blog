@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    
+    <title>Hanoi Tower: Ideas &amp; Answer - 回音的博客</title>
+    <meta charset="utf-8">
+    
+    <meta name="title" content="Hanoi Tower: Ideas &amp; Answer - 回音的博客">
+    <meta name="description" content="">
+    <meta property="og:image" content="/favicon.png">
+    <meta property="og:image:width" content="200" />
+    <meta property="og:image:height" content="200" />
+    
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Source Serif Pro', 'Source Han Serif SC', 'Noto Serif CJK SC', 'Noto Serif SC', serif
+        }
+    </style>
+    <link rel="shortcut icon" href="/favicon.png">
+    
+    
+    <link href="//cdn.jsdelivr.net/npm/prismjs@1.27.0/themes/prism.min.css" rel="stylesheet" />
+
+        
+        <link href="//cdn.jsdelivr.net/npm/prismjs@1.27.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
+        
+
+        
+    
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<script src="/js/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 5.4.1"><link rel="alternate" href="/atom.xml" title="回音的博客" type="application/atom+xml">
+</head>
+
+
+<body>
+    <header class="header">
+    <div class="blog-title">
+        <a href="/" class="logo">回音的博客</a>
+    </div>
+    <nav class="navbar">
+        <ul class="menu">
+            
+            
+            
+            <li class="menu-item">
+                
+                <a href="/" class="menu-item-link">主页</a>
+                
+            </li>
+            
+            
+            
+            <li class="menu-item">
+                
+                <a href="/about" class="menu-item-link">关于</a>
+                
+            </li>
+            
+            
+            
+            <li class="menu-item">
+                
+                <a href="/atom.xml" class="menu-item-link">订阅</a>
+                
+            </li>
+            
+        </ul>
+    </nav>
+</header>
+    <main class="main">
+        <article class="post">
+    <div class="post-title">
+        <h1 class="title">Hanoi Tower: Ideas &amp; Answer</h2>
+    </div>
+    <div class="post-content">
+        <p>In the study of SICP (Structure and Interpretation of Computer Programs), there is a homework in <a target="_blank" rel="noopener" href="https://youtu.be/V_7mmwpgJHU">Lecture 1B, MIT 6.001 (1986)</a>.</p>
+<p>To solve the Hanoi Tower, there is a list of ideas from simple to hard that avoid you going to the wrong way.</p>
+<ul>
+<li>The thinking of recursive is split the problem into the small problem. In this case, move “n - 1” disks to a auxiliary rod. Then move the bottom disk to destination rod.</li>
+<li>You don’t need to storage the number of disks on towers. Instead, use a single character to represent towers like ‘A’, ‘B’ and ‘C’ because you can only move one disk at once.</li>
+<li>Use a parameter as lefting disks to move. When you need to move the “bottom” disk, just print “A =&gt; C”.</li>
+</ul>
+<h2 id="Answer">Answer</h2>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+
+<span class="token keyword">void</span> <span class="token function">hanoiTowers</span><span class="token punctuation">(</span><span class="token keyword">int</span> disks<span class="token punctuation">,</span> <span class="token keyword">char</span> source<span class="token punctuation">,</span> <span class="token keyword">char</span> auxiliary<span class="token punctuation">,</span> <span class="token keyword">char</span> destination<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token function">hanoiTowers</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token char">'A'</span><span class="token punctuation">,</span> <span class="token char">'B'</span><span class="token punctuation">,</span> <span class="token char">'C'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">void</span> <span class="token function">hanoiTowers</span><span class="token punctuation">(</span><span class="token keyword">int</span> disks<span class="token punctuation">,</span> <span class="token keyword">char</span> source<span class="token punctuation">,</span> <span class="token keyword">char</span> auxiliary<span class="token punctuation">,</span> <span class="token keyword">char</span> destination<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>disks <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token comment">// Move all disk besides bottom one.</span>
+    <span class="token comment">// Auxiliary tower as destination of above disks.</span>
+    <span class="token comment">// A B C   to   A B C</span>
+    <span class="token comment">// 3 0 0        1 2 0</span>
+    <span class="token function">hanoiTowers</span><span class="token punctuation">(</span>disks <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">,</span> source<span class="token punctuation">,</span> destination<span class="token punctuation">,</span> auxiliary<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// With these moving, there is `disks - 1` of disks on auxiliary tower</span>
+
+    <span class="token comment">// Then move last disk on source tower to destination tower</span>
+    <span class="token comment">// A B C   to   A B C</span>
+    <span class="token comment">// 1 2 0        0 2 1</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%c => %c\n"</span><span class="token punctuation">,</span> source<span class="token punctuation">,</span> destination<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// Now source tower is empty</span>
+
+    <span class="token comment">// Move left disks to the destination tower on auxiliary tower</span>
+    <span class="token comment">// Use source tower as auxiliary</span>
+    <span class="token comment">// A B C   to   A B C</span>
+    <span class="token comment">// 0 2 1        0 0 3</span>
+    <span class="token function">hanoiTowers</span><span class="token punctuation">(</span>disks <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">,</span> auxiliary<span class="token punctuation">,</span> source<span class="token punctuation">,</span> destination<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+    </div>
+    <div class="post-meta">
+        
+    <span class="post-time">2022/04/15</span>
+    </div>
+</article>
+
+<div class="prev_next">
+    <nav id="prev_next">
+
+<div class="prev">
+    
+</div>
+<div class="next">
+    
+    <p>下一篇</p>
+    <a href="/otc-vf-chws-and-specifi-config-for-android/"><div class="article-nav-title">Android上使用OTC、可变字体、标点挤压和特别修改</div></a>
+    
+</div>
+
+</nav>
+</div>
+
+<div class="post-comment">
+    
+
+
+
+</div>
+
+    </main>
+    <p class="license"></p>
+</body>
+
+</html>

@@ -38,7 +38,7 @@
     
 <script src="/js/jquery.min.js"></script>
 
-<meta name="generator" content="Hexo 5.4.1"><link rel="alternate" href="/atom.xml" title="回音的博客" type="application/atom+xml">
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="回音的博客" type="application/atom+xml">
 </head>
 
 
@@ -86,11 +86,11 @@
         <p>由于广电政策限制，IPTV 是无法随意安装应用的，但这个盒子搭载 Andorid 系统还有 Wi-Fi，不用实在太可惜。一般这样的设备都会开放网络 ADB，用 ADB 安装之后再用 ADB 打开就可以了。</p>
 <span id="more"></span>
 <p>ADB 的端口开放在 30016，找到盒子的 IP 然后连接：</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">adb connect <span class="token operator">&lt;</span>IP<span class="token operator">></span>:30016<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">adb connect <span class="token operator">&lt;</span>IP<span class="token operator">></span>:30016<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>连接成功后再安装 APK：</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">adb <span class="token function">install</span> <span class="token operator">&lt;</span>path-to-your-apk<span class="token operator">></span>.apk<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">adb <span class="token function">install</span> <span class="token operator">&lt;</span>path-to-your-apk<span class="token operator">></span>.apk<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>再使用 monkey 打开应用：</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">adb shell monkey -p app.package.name -c android.intent.category.LAUNCHER <span class="token number">1</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">adb shell monkey -p app.package.name -c android.intent.category.LAUNCHER <span class="token number">1</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <h1>感谢</h1>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://www.znds.com/forum.php?mod=viewthread&amp;tid=1138683">UNT401H 破解 思路_中国移动魔百盒_ZNDS</a></li>

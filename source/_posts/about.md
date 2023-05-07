@@ -41,17 +41,17 @@ Android Lollipop带着Material Deisgn问世之后，因为我被Material Design�
 下面列出的顺序应该是认识的时间顺序（大概？），没有列出的可能是没找到链接，更多可能是因为我不确定对方认不认识我。
 
 - [Kela Kim](https://www.wsl.moe/)
-- [Beet Yang](https://beetman.net/)
+- ~~[Beet Yang](https://beetman.net/)~~
 - [Elepover](https://daily.elepover.com/)
 - [Simon Smh](https://simonsmh.cc/)
 - [烧饼](https://feng.moe/)
 - [Makito](https://mak1t0.cc/)
 - [萝卜](https://blog.miraclemilk.me/)
 - [白兔](https://daisuke.moe/)
-- [47](https://blog.cn47mp.moe/)
+- ~~[47](https://blog.cn47mp.moe/)~~
 - [蚊子](https://mozz.ie/)
 - [戌木](https://blog.xmuu.dev/)
 - [Kirin](https://9baka.moe)
-- [Sion](https://blog.sion.moe/)
+- ~~[Sion](https://blog.sion.moe/)~~
 - [Sexgold](https://blog.theergold.com)
 - [Kiritake Kumi](https://blog.yazawaniko.com/)

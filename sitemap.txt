@@ -1,3 +1,5 @@
+https://echo.moe/6k-tiny-pc/
+https://echo.moe/about/
 https://echo.moe/atri/
 https://echo.moe/dynamic-dividers-on-dialog/
 https://echo.moe/hanoi-tower-ideas-and-answer/
@@ -11,6 +13,4 @@ https://echo.moe/simply-implement-orm-by-using-reflection-in-c-sharp/
 https://echo.moe/talk-about-open-web-and-personal-ads/
 https://echo.moe/using-built-in-variable-font-on-android/
 https://echo.moe/using-cloudflare-to-redirect/
-https://echo.moe/6k-tiny-pc/
-https://echo.moe/about/
 https://echo.moe/

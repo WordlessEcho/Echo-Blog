@@ -22,8 +22,10 @@ date: 2020-04-05 18:21:13
 #### 大型跑
 - 横纲大型跑：野队，226%难度，147（39）蛋。前5%。[数据](https://twitter.com/wordlessecho/status/1602756504557596672)
 - 辰龙大型跑：野队248%难度，154（46）蛋。前5%。[数据](https://twitter.com/wordlessecho/status/1632588480365862913)
+- 杂鱼大型跑：野队333%难度，160（？）蛋，前5%。[数据](https://twitter.com/WordlessEcho/status/1669085387594006529)
 #### 团队工
 - 23年4月：213（48)蛋。前5%。[数据](https://twitter.com/WordlessEcho/status/1648287666646179840)
+- 23年7月：253（75）蛋，前5%。[数据](https://twitter.com/WordlessEcho/status/1676174479419133952)
 
 ### 守望先锋
 垃圾游戏，狗都不玩。

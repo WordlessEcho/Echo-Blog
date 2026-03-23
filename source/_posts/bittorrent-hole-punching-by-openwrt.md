@@ -79,7 +79,7 @@ uci commit dhcp
 ```
 
 # 新建防火墙规则
-分别为IPv4 TCP、IPv4 UDP和IPv6创建防火墙规则，用来允许入站，后续会动态修改
+分别为IPv4 TCP和IPv6创建防火墙规则，用来允许入站，后续会动态修改
 ```sh
 # 转发IPv4 TCP端口
 uci set firewall.qbt_ipv4_tcp=redirect
@@ -94,19 +94,6 @@ uci set firewall.qbt_ipv4_tcp.target='DNAT'
 uci set firewall.qbt_ipv4_tcp.proto='tcp'
 # 之后dest_port会被修改为BT监听端口
 uci set firewall.qbt_ipv4_tcp.dest_port='<hole punch port>'
-
-# 转发IPv4 UDP端口
-uci set firewall.qbt_ipv4_udp=redirect
-uci set firewall.qbt_ipv4_udp.name='qBittorrent-IPv4-UDP'
-uci set firewall.qbt_ipv4_udp.src='wan'
-uci set firewall.qbt_ipv4_udp.dest='lan'
-# 给BT的机器分配的内网IPv4地址
-uci set firewall.qbt_ipv4_udp.dest_ip='<BT client IP address>'
-uci set firewall.qbt_ipv4_udp.target='DNAT'
-uci set firewall.qbt_ipv4_udp.proto='udp'
-# 之后src_dport和dest_port会被修改为BT监听端口
-uci set firewall.qbt_ipv4_udp.src_dport='<hole punch port>'
-uci set firewall.qbt_ipv4_udp.dest_port='<hole punch port>'
 
 # 开放IPv6端口
 uci set firewall.qbt_ipv6=rule
@@ -151,9 +138,6 @@ QBT_PORT="7474"
 
 # IPv4 TCP
 uci set firewall.qbt_ipv4_tcp.dest_port=$PUBLIC_PORT
-# IPv4 UDP
-uci set firewall.qbt_ipv4_udp.src_dport=$PUBLIC_PORT
-uci set firewall.qbt_ipv4_udp.dest_port=$PUBLIC_PORT
 # IPv6
 uci set firewall.qbt_ipv6.dest_port=$PUBLIC_PORT
 

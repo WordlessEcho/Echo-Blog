@@ -4,6 +4,8 @@ date: 2026-06-16 19:06:14
 ---
 
 Harness Engineering是能让AI agent的产出更稳定的工程方法。按照[Anthropic的文章](https://www.anthropic.com/engineering/harness-design-long-running-apps)，通过分设三角的方式，避免agent因为context污染产生幻觉。
+<!--more-->
+
 总结了他们的本质，我们可以用Codex subagent来复刻这种模式。首先在项目下新建./codex/agents
 
 ```
@@ -31,6 +33,7 @@ You are a focused implementation agent.
 
 Output commit ID.
 """
+```
 
 evaluator.toml
 ```

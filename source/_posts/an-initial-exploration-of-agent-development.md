@@ -4,6 +4,8 @@ date: 2026-10-01 21:31:09
 ---
 
 To be honest, it is easier than I expected to build an agent. Tool calling is really straightforward, which shows how powerful LLMs have become through training! It used to be not that easy for LLMs to generate [Structured Outputs](https://openai.com/index/introducing-structured-outputs-in-the-api/).
+
+Here is a minimal CLI agent built in TypeScript following the [ReAct (Reasoning + Acting)](https://arxiv.org/abs/2210.03629) pattern.
 <!--more-->
 
 # Chat Completions API
@@ -310,6 +312,7 @@ Behind the scenes, the complete `messages` array passed to the model across this
 [WordlessEcho/exploring-agent-dev](https://github.com/WordlessEcho/exploring-agent-dev)
 
 # Reference
+- [ReAct: Synergizing Reasoning and Acting in Language Models | arXiv:2210.03629](https://arxiv.org/abs/2210.03629)
 - [Create chat completion | OpenAI API Reference](https://developers.openai.com/api/reference/resources/chat/subresources/completions/methods/create)
 - [Fetch API - Web APIs | MDN](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
 - [Accept input from the command line in Node.js | Node.js Learn](https://nodejs.org/learn/command-line/accept-input-from-the-command-line-in-nodejs)

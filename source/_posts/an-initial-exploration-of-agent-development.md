@@ -306,6 +306,9 @@ Behind the scenes, the complete `messages` array passed to the model across this
 ]
 ```
 
+# Source code
+[WordlessEcho/exploring-agent-dev](https://github.com/WordlessEcho/exploring-agent-dev)
+
 # Reference
 - [Create chat completion | OpenAI API Reference](https://developers.openai.com/api/reference/resources/chat/subresources/completions/methods/create)
 - [Fetch API - Web APIs | MDN](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
